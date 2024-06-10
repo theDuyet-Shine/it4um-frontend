@@ -1,35 +1,44 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Outlet } from "react-router-dom";
+import "./App.css";
+import Navbar from "./components/Navbar";
+import { Toaster } from "react-hot-toast";
+import { createContext, useEffect, useState } from "react";
+import {
+  lookInSession,
+  removeFromSession,
+  storeInSession,
+} from "./utils/session";
+
+export const UserContext = createContext({});
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [userAuth, setUserAuth] = useState();
+
+  useEffect(() => {
+    let userInSession = lookInSession("user");
+
+    userInSession ? setUserAuth(JSON.parse(userInSession)) : setUserAuth(null);
+  }, []);
+
+  const loginContext = (userData) => {
+    setUserAuth(userData);
+    storeInSession("user", JSON.stringify(userData));
+  };
+
+  const logoutContext = () => {
+    setUserAuth(null);
+    removeFromSession("user");
+  };
 
   return (
-    <>
+    <UserContext.Provider value={{ userAuth, loginContext, logoutContext }}>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <Toaster />
+        <Navbar />
+        <Outlet />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </UserContext.Provider>
+  );
 }
 
-export default App
+export default App;
