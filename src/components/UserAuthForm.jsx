@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import api from "../config/axios";
 import toast from "react-hot-toast";
 import { UserContext } from "../App";
-const UserAuthForm = ({ type }) => {
+const UserAuthForm = ({ type, loginType }) => {
   const { loginContext } = useContext(UserContext);
 
   const [showOtpForm, setShowOtpForm] = useState(false);
@@ -85,7 +85,7 @@ const UserAuthForm = ({ type }) => {
     }
   };
 
-  const handleLogin = async (e) => {
+  const handleUserLogin = async (e) => {
     e.preventDefault();
     if (!formData.username || !formData.password) {
       toast.error("Vui lòng điền đầy đủ thông tin");
@@ -110,6 +110,11 @@ const UserAuthForm = ({ type }) => {
         "Đăng nhập không thành công. Vui lòng kiểm tra lại thông tin đăng nhập."
       );
     }
+  };
+
+  const handleAdminLogin = async (e) => {
+    e.preventDefault();
+    console.log(formData);
   };
 
   return (
@@ -177,12 +182,21 @@ const UserAuthForm = ({ type }) => {
                   placeholder="Mật khẩu"
                   onChange={handleInputChange}
                 />
-                <button
-                  className="px-4 py-2 bg-black text-white rounded-full shadow-md mt-4 mb-4"
-                  onClick={handleLogin}
-                >
-                  Đăng nhập
-                </button>
+                {loginType === "user" ? (
+                  <button
+                    className="px-4 py-2 bg-black text-white rounded-full shadow-md mt-4 mb-4"
+                    onClick={handleUserLogin}
+                  >
+                    Đăng nhập
+                  </button>
+                ) : (
+                  <button
+                    className="px-4 py-2 bg-black text-white rounded-full shadow-md mt-4 mb-4"
+                    onClick={handleAdminLogin}
+                  >
+                    Đăng nhập
+                  </button>
+                )}
                 <div className="relative w-full flex items-center gap-2 mt-4">
                   <hr className="w-full border-t border-black opacity-10" />
                   <p className="text-black opacity-50 font-bold uppercase mx-2">
@@ -211,6 +225,31 @@ const UserAuthForm = ({ type }) => {
             </button>
           </>
         )}
+
+        {loginType !== null ? (
+          loginType === "user" ? (
+            <>
+              <Link
+                to={"/login-admin"}
+                className="mt-8 text-dark-grey text-md text-center underline"
+              >
+                Đăng nhập với quyền quản trị viên
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link
+                to={"/login"}
+                className="mt-8 text-dark-grey text-md text-center underline"
+              >
+                Đăng nhập với quyền người dùng
+              </Link>
+            </>
+          )
+        ) : (
+          ""
+        )}
+
         {type === "login" ? (
           <>
             <p className="mt-4 text-dark-grey text-md text-center">

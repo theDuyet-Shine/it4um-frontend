@@ -6,6 +6,7 @@ import "./index.css";
 import Home from "./pages/Home";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
+import LoginPageAdmin from "./pages/LoginPageAdmin";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <LoginPage />,
+      },
+      {
+        path: "login-admin",
+        element: <LoginPageAdmin />,
       },
       {
         path: "/signup",
