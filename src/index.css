@@ -8,6 +8,6 @@
   }
 
   .password-icon {
-    @apply left-[auto] right-16 absolute top-1/2 -translate-y-1/2 cursor-pointer mt-1;
+    @apply left-[auto] right-14 absolute top-1/2 -translate-y-1/2 cursor-pointer mt-1;
   }
 }

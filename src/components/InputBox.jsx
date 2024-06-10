@@ -15,6 +15,7 @@ const InputBox = ({ name, type, id, value, placeholder, onChange }) => {
         value={value}
         className="input-box"
         onChange={onChange}
+        required
       />
       {type === "password" ? (
         <button

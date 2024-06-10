@@ -150,10 +150,10 @@ const UserAuthForm = ({ type }) => {
                   onChange={handleInputChange}
                 />
                 <button
-                  className="w-full px-4 py-2 bg-black text-white rounded-full shadow-md mt-4 mb-4"
+                  className="px-4 py-2 bg-black text-white rounded-full shadow-md mt-4 mb-4"
                   onClick={handleSendOtp}
                 >
-                  Gửi OTP
+                  Tiếp tục
                 </button>
                 <div className="relative w-full flex items-center gap-2">
                   <hr className="w-full border-t border-black opacity-10" />
@@ -178,7 +178,7 @@ const UserAuthForm = ({ type }) => {
                   onChange={handleInputChange}
                 />
                 <button
-                  className="w-full px-4 py-2 bg-black text-white rounded-full shadow-md mt-4 mb-4"
+                  className="px-4 py-2 bg-black text-white rounded-full shadow-md mt-4 mb-4"
                   onClick={handleLogin}
                 >
                   Đăng nhập
@@ -207,7 +207,7 @@ const UserAuthForm = ({ type }) => {
               className="w-full px-4 py-2 bg-black text-white rounded-full shadow-md mt-4 mb-4"
               onClick={handleSignUp}
             >
-              Xác nhận
+              Đăng ký
             </button>
           </>
         )}
