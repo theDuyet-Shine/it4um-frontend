@@ -1,8 +1,8 @@
+import React, { createContext, useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import "./App.css";
 import Navbar from "./components/Navbar";
 import { Toaster } from "react-hot-toast";
-import { createContext, useEffect, useState } from "react";
 import {
   lookInSession,
   removeFromSession,
@@ -12,11 +12,10 @@ import {
 export const UserContext = createContext({});
 
 function App() {
-  const [userAuth, setUserAuth] = useState();
+  const [userAuth, setUserAuth] = useState(null);
 
   useEffect(() => {
     let userInSession = lookInSession("user");
-
     userInSession ? setUserAuth(JSON.parse(userInSession)) : setUserAuth(null);
   }, []);
 

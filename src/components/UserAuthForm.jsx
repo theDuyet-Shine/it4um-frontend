@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import api from "../config/axios";
 import toast from "react-hot-toast";
 import { UserContext } from "../App";
+import { motion as m } from "framer-motion";
 const UserAuthForm = ({ type, loginType }) => {
   const { loginContext } = useContext(UserContext);
 
@@ -21,7 +22,6 @@ const UserAuthForm = ({ type, loginType }) => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    console.log(formData);
   };
 
   const handleSendOtp = async (e) => {
@@ -97,15 +97,14 @@ const UserAuthForm = ({ type, loginType }) => {
         password: formData.password,
       });
       if (response.status === 200) {
-        console.log(response);
-        loginContext(response.data);
-        console.log(sessionStorage);
         toast.success("Đăng nhập thành công!");
         setTimeout(() => {
+          loginContext(response.data);
           navigate("/");
         }, 2000);
       }
     } catch (error) {
+      console.log(error);
       toast.error(
         "Đăng nhập không thành công. Vui lòng kiểm tra lại thông tin đăng nhập."
       );
@@ -119,7 +118,7 @@ const UserAuthForm = ({ type, loginType }) => {
 
   return (
     <section className="min-h-[calc(100vh-80px)] flex items-center justify-center">
-      <form className="w-[80%] max-w-[500px] bg-white rounded-lg shadow-md p-4 mt-8">
+      <form className="w-[80%] max-w-[500px] bg-white rounded-lg shadow-md p-4 mt-8 ">
         <h1 className="text-4xl text-center mb-12">
           {type === "login"
             ? "Chào mừng bạn đã quay trở lại!"
@@ -154,10 +153,7 @@ const UserAuthForm = ({ type, loginType }) => {
                   placeholder="Email"
                   onChange={handleInputChange}
                 />
-                <button
-                  className="px-4 py-2 bg-black text-white rounded-full shadow-md mt-4 mb-4"
-                  onClick={handleSendOtp}
-                >
+                <button className="auth-button" onClick={handleSendOtp}>
                   Tiếp tục
                 </button>
                 <div className="relative w-full flex items-center gap-2">
@@ -183,17 +179,11 @@ const UserAuthForm = ({ type, loginType }) => {
                   onChange={handleInputChange}
                 />
                 {loginType === "user" ? (
-                  <button
-                    className="px-4 py-2 bg-black text-white rounded-full shadow-md mt-4 mb-4"
-                    onClick={handleUserLogin}
-                  >
+                  <button className="auth-button" onClick={handleUserLogin}>
                     Đăng nhập
                   </button>
                 ) : (
-                  <button
-                    className="px-4 py-2 bg-black text-white rounded-full shadow-md mt-4 mb-4"
-                    onClick={handleAdminLogin}
-                  >
+                  <button className="auth-button" onClick={handleAdminLogin}>
                     Đăng nhập
                   </button>
                 )}
@@ -208,7 +198,11 @@ const UserAuthForm = ({ type, loginType }) => {
             )}
           </>
         ) : (
-          <>
+          <m.div
+            initial={{ y: -1000 }}
+            animate={{ y: 0 }}
+            transition={{ duration: 0.75, ease: "easeInOut" }}
+          >
             <h2 className="text-2xl text-center mb-4">Nhập mã OTP</h2>
             <InputBox
               name="otp"
@@ -217,31 +211,22 @@ const UserAuthForm = ({ type, loginType }) => {
               placeholder="Mã OTP"
               onChange={handleInputChange}
             />
-            <button
-              className="w-full px-4 py-2 bg-black text-white rounded-full shadow-md mt-4 mb-4"
-              onClick={handleSignUp}
-            >
+            <button className="auth-button" onClick={handleSignUp}>
               Đăng ký
             </button>
-          </>
+          </m.div>
         )}
 
         {loginType !== null ? (
           loginType === "user" ? (
-            <>
-              <Link
-                to={"/login-admin"}
-                className="mt-8 text-dark-grey text-md text-center underline"
-              >
+            <div>
+              <Link to={"/login-admin"} className="link-text">
                 Đăng nhập với quyền quản trị viên
               </Link>
-            </>
+            </div>
           ) : (
             <>
-              <Link
-                to={"/login"}
-                className="mt-8 text-dark-grey text-md text-center underline"
-              >
+              <Link to={"/login"} className="link-text">
                 Đăng nhập với quyền người dùng
               </Link>
             </>
@@ -251,17 +236,14 @@ const UserAuthForm = ({ type, loginType }) => {
         )}
 
         {type === "login" ? (
-          <>
-            <p className="mt-4 text-dark-grey text-md text-center">
+          <div>
+            <p className="mt-4 text-dark-grey text-base text-center">
               Chưa có tài khoản?
-              <Link
-                to={"/signup"}
-                className="underline text-black text-md ml-2"
-              >
+              <Link to={"/signup"} className="link-text ml-1">
                 Đăng ký tại đây!
               </Link>
             </p>
-          </>
+          </div>
         ) : (
           !showOtpForm && (
             <>
