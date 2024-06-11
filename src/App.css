@@ -21,3 +21,20 @@
   opacity: 0;
   transition: opacity 1s ease-in-out;
 }
+
+.ql-editor img {
+  width: 100%;
+  height: 400px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ql-editor {
+  max-height: 450px;
+  overflow-y: scroll;
+}
+
+.quill {
+  width: 60%;
+}

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import logo from "../assets/logo.png";
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { GoBell } from "react-icons/go";
 import { BsPencilSquare } from "react-icons/bs";
 import UserNav from "./UserNav";
@@ -10,7 +10,7 @@ import { motion as m } from "framer-motion";
 
 const Navbar = () => {
   const userAuth = useSelector((state) => state.user);
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
 
@@ -34,6 +34,10 @@ const Navbar = () => {
 
   const handleMenuOpenChange = (isOpen) => {
     setMenuOpen(isOpen);
+  };
+
+  const handleNewPostClick = () => {
+    navigate("/new-post");
   };
 
   return (
@@ -62,7 +66,10 @@ const Navbar = () => {
 
         {/* Actions */}
         <div className="flex items-center justify-center space-x-4 mr-8">
-          <button className=" gap-1 flex items-center px-4 py-2 border rounded-full text-gray-700 bg-white cursor-pointer hover:bg-slate-200">
+          <button
+            onClick={handleNewPostClick}
+            className="gap-1 flex items-center px-4 py-2 border rounded-full text-gray-700 bg-white cursor-pointer hover:bg-slate-200"
+          >
             <BsPencilSquare />
             Viết bài
           </button>
@@ -70,7 +77,7 @@ const Navbar = () => {
           {userAuth.isAuthenticated ? (
             <div className="gap-2 flex" ref={menuRef}>
               <Link to={"/dashboard/notification"}>
-                <button className="w-10 h-10 rounded-full border flex justify-center items-center  hover:bg-slate-200">
+                <button className="w-10 h-10 rounded-full border flex justify-center items-center hover:bg-slate-200">
                   <GoBell className="w-10 h-6 " />
                 </button>
               </Link>

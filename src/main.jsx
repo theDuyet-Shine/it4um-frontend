@@ -16,6 +16,7 @@ import DashboardLayout from "./layout/DashboardLayout";
 import { Provider } from "react-redux";
 import store, { persistor } from "./redux/store";
 import { PersistGate } from "redux-persist/integration/react";
+import NewPost from "./pages/NewPost";
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
         element: <SignupPage />,
       },
       {
+        path: "/new-post",
+        element: <NewPost />,
+      },
+      {
         path: "/dashboard",
         element: <DashboardLayout />,
         children: [
@@ -59,7 +64,7 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+  <>
     <RouterProvider router={router} />
-  </React.StrictMode>
+  </>
 );
