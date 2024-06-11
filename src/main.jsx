@@ -1,6 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom"; // Import Outlet
+import {
+  BrowserRouter,
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
 import App from "./App";
 import "./index.css";
 import Home from "./pages/Home";
@@ -9,11 +13,20 @@ import SignupPage from "./pages/SignupPage";
 import LoginPageAdmin from "./pages/LoginPageAdmin";
 import Notification from "./pages/Notification";
 import DashboardLayout from "./layout/DashboardLayout";
+import { Provider } from "react-redux";
+import store, { persistor } from "./redux/store";
+import { PersistGate } from "redux-persist/integration/react";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: (
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <App />
+        </PersistGate>
+      </Provider>
+    ),
     children: [
       {
         path: "/",
@@ -33,7 +46,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/dashboard",
-        element: <DashboardLayout />, // Sử dụng DashboardLayout ở đây
+        element: <DashboardLayout />,
         children: [
           {
             path: "notification",

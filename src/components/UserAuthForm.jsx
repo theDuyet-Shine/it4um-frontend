@@ -1,12 +1,14 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import InputBox from "./InputBox";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../config/axios";
 import toast from "react-hot-toast";
-import { UserContext } from "../App";
+
 import { motion as m } from "framer-motion";
+import { useDispatch } from "react-redux";
+import { userLogin } from "../redux/actions/authActions";
 const UserAuthForm = ({ type, loginType }) => {
-  const { loginContext } = useContext(UserContext);
+  const dispatch = useDispatch();
 
   const [showOtpForm, setShowOtpForm] = useState(false);
   const [formData, setFormData] = useState({
@@ -99,7 +101,7 @@ const UserAuthForm = ({ type, loginType }) => {
       if (response.status === 200) {
         toast.success("Đăng nhập thành công!");
         setTimeout(() => {
-          loginContext(response.data);
+          dispatch(userLogin(response.data));
           navigate("/");
         }, 2000);
       }

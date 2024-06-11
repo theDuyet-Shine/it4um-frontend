@@ -1,18 +1,18 @@
-import React, { useContext } from "react";
+import React from "react";
 import { CgProfile } from "react-icons/cg";
 import { IoMdLogOut } from "react-icons/io";
-
+import { useDispatch, useSelector } from "react-redux";
+import { userLogout } from "../redux/actions/authActions";
 import { Link } from "react-router-dom";
-import { UserContext } from "../App";
 
 const UserNav = ({ onMenuOpenChange }) => {
-  const { userAuth, logoutContext } = useContext(UserContext);
+  const dispatch = useDispatch();
+  const userAuth = useSelector((state) => state.user.user.user);
+  console.log(userAuth);
 
   const handleLogout = () => {
     onMenuOpenChange(false);
-    setTimeout(() => {
-      logoutContext();
-    }, 2000);
+    dispatch(userLogout());
   };
 
   return (
@@ -31,7 +31,7 @@ const UserNav = ({ onMenuOpenChange }) => {
         </div>
         {userAuth && (
           <p className="text-xs mt-3 mr-12 font-thin italic">
-            @{userAuth.user.fullname}
+            @{userAuth.fullname}
           </p>
         )}
       </div>

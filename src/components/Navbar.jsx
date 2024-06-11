@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import logo from "../assets/logo.png";
 import { Link } from "react-router-dom";
-import { UserContext } from "../App";
+import { useDispatch, useSelector } from "react-redux";
 import { GoBell } from "react-icons/go";
 import { BsPencilSquare } from "react-icons/bs";
 import UserNav from "./UserNav";
@@ -9,7 +9,8 @@ import { CiSearch } from "react-icons/ci";
 import { motion as m } from "framer-motion";
 
 const Navbar = () => {
-  const { userAuth } = useContext(UserContext);
+  const userAuth = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
 
@@ -66,7 +67,7 @@ const Navbar = () => {
             Viết bài
           </button>
 
-          {userAuth ? (
+          {userAuth.isAuthenticated ? (
             <div className="gap-2 flex" ref={menuRef}>
               <Link to={"/dashboard/notification"}>
                 <button className="w-10 h-10 rounded-full border flex justify-center items-center  hover:bg-slate-200">
@@ -79,15 +80,13 @@ const Navbar = () => {
                   onClick={toggleMenu}
                 >
                   <img
-                    src={userAuth.user.profile_image}
+                    src={userAuth.user.user.profile_image}
                     className="h-10 w-10 rounded-full cursor-pointer"
                     alt="User Profile"
                   />
                 </button>
-                {menuOpen ? (
+                {menuOpen && (
                   <UserNav onMenuOpenChange={handleMenuOpenChange} />
-                ) : (
-                  ""
                 )}
               </div>
             </div>
