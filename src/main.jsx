@@ -17,6 +17,7 @@ import { Provider } from "react-redux";
 import store, { persistor } from "./redux/store";
 import { PersistGate } from "redux-persist/integration/react";
 import NewPost from "./pages/NewPost";
+import Guide from "./pages/Guide";
 
 const router = createBrowserRouter([
   {
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
       {
         path: "/new-post",
         element: <NewPost />,
+      },
+      {
+        path: "guide",
+        element: <Guide />,
       },
       {
         path: "/dashboard",

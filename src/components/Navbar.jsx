@@ -67,6 +67,14 @@ const Navbar = () => {
         {/* Actions */}
         <div className="flex items-center justify-center space-x-4 mr-8">
           <button
+            onClick={() => {
+              navigate("/guide");
+            }}
+            className="gap-1 flex items-center px-4 py-2 border rounded-full text-gray-700 bg-white cursor-pointer hover:bg-slate-200"
+          >
+            Hướng dẫn và Quy tắc
+          </button>
+          <button
             onClick={handleNewPostClick}
             className="gap-1 flex items-center px-4 py-2 border rounded-full text-gray-700 bg-white cursor-pointer hover:bg-slate-200"
           >

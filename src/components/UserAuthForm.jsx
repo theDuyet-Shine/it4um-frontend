@@ -155,7 +155,7 @@ const UserAuthForm = ({ type, loginType }) => {
                   placeholder="Email"
                   onChange={handleInputChange}
                 />
-                <button className="auth-button" onClick={handleSendOtp}>
+                <button className="button" onClick={handleSendOtp}>
                   Tiếp tục
                 </button>
                 <div className="relative w-full flex items-center gap-2">
@@ -181,11 +181,11 @@ const UserAuthForm = ({ type, loginType }) => {
                   onChange={handleInputChange}
                 />
                 {loginType === "user" ? (
-                  <button className="auth-button" onClick={handleUserLogin}>
+                  <button className="button" onClick={handleUserLogin}>
                     Đăng nhập
                   </button>
                 ) : (
-                  <button className="auth-button" onClick={handleAdminLogin}>
+                  <button className="button" onClick={handleAdminLogin}>
                     Đăng nhập
                   </button>
                 )}
@@ -213,7 +213,7 @@ const UserAuthForm = ({ type, loginType }) => {
               placeholder="Mã OTP"
               onChange={handleInputChange}
             />
-            <button className="auth-button" onClick={handleSignUp}>
+            <button className="button" onClick={handleSignUp}>
               Đăng ký
             </button>
           </m.div>
