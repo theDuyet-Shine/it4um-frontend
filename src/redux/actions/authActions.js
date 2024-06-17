@@ -1,11 +1,11 @@
-export const userLogin = (user) => ({
+export const userLogin = ({ user, token }) => ({
   type: "USER_LOGIN",
-  payload: user,
+  payload: { user, token },
 });
 
-export const adminLogin = (admin) => ({
+export const adminLogin = ({ admin, token }) => ({
   type: "ADMIN_LOGIN",
-  payload: admin,
+  payload: { admin, token },
 });
 
 export const userLogout = () => ({

@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import TextEditor from "../components/TextEditor";
 import PreviewPost from "../components/post/PreviewPost";
 import MultipleSelectChip from "../components/post/MultiSelectChip";
+import api from "../config/axios";
 
 const NewPost = () => {
   const navigate = useNavigate();
@@ -27,14 +28,19 @@ const NewPost = () => {
   }, [navigate, userAuth.isAuthenticated]);
 
   const handleTagsChange = (selectedTags) => {
-    setTags(selectedTags); // Cập nhật danh sách các tag được chọn
+    setTags(selectedTags);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const newPost = { title, content, tags }; // Bao gồm cả danh sách các tag
-    console.log(newPost);
-    toast.success("Bài viết đã được lưu!");
+    const author = userAuth.user._id;
+    const newPost = { title, content, tags, author };
+    try {
+      const response = await api.post("/post", newPost);
+      if (response.status === 201) toast.success("Đăng bài thành công!");
+    } catch (error) {
+      toast.error("Lỗi khi đăng bài!");
+    }
   };
 
   return (
@@ -84,7 +90,7 @@ const NewPost = () => {
             <label className="block text-xl font-medium text-gray-700 mb-2">
               Thẻ
             </label>
-            <MultipleSelectChip onChange={handleTagsChange} />
+            <MultipleSelectChip value={tags} onChange={handleTagsChange} />
           </div>
           <div>
             <label className="block text-xl font-medium text-gray-700 mb-2">

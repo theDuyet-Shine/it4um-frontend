@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 import { GoBell } from "react-icons/go";
 import { BsPencilSquare } from "react-icons/bs";
 import UserNav from "./UserNav";
-import { CiSearch } from "react-icons/ci";
 import { motion as m } from "framer-motion";
 
 const Navbar = () => {
@@ -52,18 +51,6 @@ const Navbar = () => {
           <img src={logo} alt="Logo" className="h-20 w-20 ml-8" />
         </Link>
 
-        {/* Search */}
-        <div className="relative flex-1 mx-4">
-          <input
-            type="text"
-            placeholder="Tìm kiếm"
-            className="w-[50%] float-left ml-8 py-2 pl-10 pr-4 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-200 hover:bg-slate-200 focus:bg-slate-200"
-          />
-          <div className="absolute inset-y-0 left-8 pl-3 flex items-center pointer-events-none">
-            <CiSearch className="w-6 h-6" />
-          </div>
-        </div>
-
         {/* Actions */}
         <div className="flex items-center justify-center space-x-4 mr-8">
           <button
@@ -95,7 +82,7 @@ const Navbar = () => {
                   onClick={toggleMenu}
                 >
                   <img
-                    src={userAuth.user.user.profile_image}
+                    src={userAuth.user.profile_image}
                     className="h-10 w-10 rounded-full cursor-pointer"
                     alt="User Profile"
                   />

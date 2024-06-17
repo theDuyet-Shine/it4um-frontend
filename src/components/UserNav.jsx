@@ -7,8 +7,7 @@ import { Link } from "react-router-dom";
 
 const UserNav = ({ onMenuOpenChange }) => {
   const dispatch = useDispatch();
-  const userAuth = useSelector((state) => state.user.user.user);
-  console.log(userAuth);
+  const userAuth = useSelector((state) => state.user.user);
 
   const handleLogout = () => {
     onMenuOpenChange(false);

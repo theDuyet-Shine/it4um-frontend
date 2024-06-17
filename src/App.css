@@ -2,6 +2,7 @@
   margin: 0 auto;
   text-align: center;
   font-family: "Times New Roman", Times, serif;
+  line-height: 1.6;
 }
 
 .fade-enter {
@@ -32,8 +33,13 @@
 
 .ql-editor {
   font-family: "Times New Roman", Times, serif;
+  line-height: 1.6;
 }
 
 .quill {
   width: 100%;
+}
+
+.font-time {
+  font-family: "Times New Roman", Times, serif;
 }

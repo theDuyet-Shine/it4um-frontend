@@ -100,8 +100,10 @@ const UserAuthForm = ({ type, loginType }) => {
       });
       if (response.status === 200) {
         toast.success("Đăng nhập thành công!");
+        const { user, token } = response.data;
         setTimeout(() => {
-          dispatch(userLogin(response.data));
+          dispatch(userLogin({ user, token }));
+          console.log(response);
           navigate("/");
         }, 2000);
       }

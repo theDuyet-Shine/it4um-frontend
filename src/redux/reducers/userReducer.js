@@ -1,6 +1,7 @@
 const initialState = {
   isAuthenticated: false,
   user: null,
+  token: null,
 };
 
 const userReducer = (state = initialState, action) => {
@@ -9,7 +10,8 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         isAuthenticated: true,
-        user: action.payload,
+        user: action.payload.user,
+        token: action.payload.token,
       };
     case "USER_LOGOUT":
       return initialState;
