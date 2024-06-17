@@ -90,10 +90,7 @@ const Home = () => {
         {posts.map((post) => (
           <div
             key={post._id}
-            className="mb-4 p-4 border rounded cursor-pointer"
-            onClick={() => {
-              navigate(`/post/${post._id}`);
-            }}
+            className="mb-4 p-4 border rounded"
           >
             <div className="flex justify-between items-center mb-2">
               <div className="flex items-center gap-4">
@@ -110,7 +107,9 @@ const Home = () => {
                 </p>
               </div>
             </div>
-            <h3 className="text-lg font-bold mb-2">{post.title}</h3>
+            <h3 className="text-lg font-bold mb-2 cursor-pointer" onClick={() => {
+              navigate(`/post/${post._id}`);
+            }}>{post.title}</h3>
             <div className="flex items-center text-gray-500 text-sm mb-2">
               <IoMdEye className="mr-1" /> {post.total_views}
               <FaRegComments className="ml-4 mr-1" /> {post.total_comments}
