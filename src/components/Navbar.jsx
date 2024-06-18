@@ -44,6 +44,7 @@ const Navbar = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.75, ease: "easeOut" }}
+      className="z-10"
     >
       <nav className="flex justify-between items-center bg-white border-b-2">
         {/* Logo */}

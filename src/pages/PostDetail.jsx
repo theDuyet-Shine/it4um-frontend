@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../config/axios";
-import { motion as m } from "framer-motion";
+import { motion as m, AnimatePresence } from "framer-motion";
 import "react-quill/dist/quill.snow.css";
 import { BsPencilSquare } from "react-icons/bs";
 import { IoMdEye } from "react-icons/io";
@@ -9,6 +9,7 @@ import { FaRegComments } from "react-icons/fa";
 import { AiFillLike, AiOutlineLike } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
+import CommentPool from "../components/comment/CommentPool";
 
 const PostDetail = () => {
   const { id } = useParams();
@@ -16,28 +17,79 @@ const PostDetail = () => {
   const [isLiked, setIsLiked] = useState(false);
   const [totalLikes, setTotalLikes] = useState(0);
   const userAuth = useSelector((state) => state.user);
+  const [showComments, setShowComments] = useState(false);
 
   const fetchPost = async () => {
     try {
       const response = await api.get(`/post/${id}`);
       if (response.status === 200) {
         setPostData(response.data);
-        setTotalLikes(response.data.total_likes); // Cập nhật số lượt like hiện tại
+        setTotalLikes(response.data.total_likes);
+        setIsLiked(response.data.like_by.includes(userAuth.user._id));
       }
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleLike = () => {
+  const handleLike = async () => {
+    try {
+      if (userAuth.isAuthenticated) {
+        const response = await api.post(`/post/like`, {
+          userId: userAuth.user._id,
+          postId: postData._id,
+        });
+        if (response.status === 200) {
+          setIsLiked(true);
+          setTotalLikes(totalLikes + 1);
+        }
+      } else {
+        toast("Bạn cần đăng nhập để thích bài viết", {
+          icon: "⚠️",
+          duration: 1000,
+        });
+      }
+    } catch (error) {
+      console.error("Error liking post:", error);
+    }
+  };
+
+  const handleUnlike = async () => {
+    try {
+      if (userAuth.isAuthenticated) {
+        const response = await api.post(`/post/unlike`, {
+          userId: userAuth.user._id,
+          postId: postData._id,
+        });
+        if (response.status === 200) {
+          setIsLiked(false);
+          setTotalLikes(totalLikes - 1);
+        }
+      } else {
+        toast("Bạn cần đăng nhập để bỏ thích bài viết", {
+          icon: "⚠️",
+          duration: 1000,
+        });
+      }
+    } catch (error) {
+      console.error("Error unliking post:", error);
+    }
+  };
+  const handleToggleComments = () => {
     if (userAuth.isAuthenticated) {
-      setIsLiked(!isLiked);
-      setTotalLikes(isLiked ? totalLikes - 1 : totalLikes + 1);
+      setShowComments(!showComments);
     } else
-      toast("Bạn cần đăng nhập mới có thể tương tác với bài viết", {
-        icon: "⚠️",
-        duration: 1000,
-      });
+      toast(
+        "Bạn cần đăng nhập tài khoản người dùng mới có thể tương tác với bài viết",
+        {
+          icon: "⚠️",
+          duration: 1000,
+        }
+      );
+  };
+
+  const handleCloseComments = () => {
+    setShowComments(false);
   };
 
   useEffect(() => {
@@ -51,6 +103,22 @@ const PostDetail = () => {
       transition={{ duration: 0.75, ease: "easeOut" }}
       className="flex items-center justify-center"
     >
+      <AnimatePresence>
+        {showComments && (
+          <m.div
+            initial={{ opacity: 0, x: "100%" }}
+            animate={{
+              opacity: showComments ? 1 : 0,
+              x: showComments ? 0 : "100%",
+            }}
+            exit={{ opacity: 0, x: "100%" }}
+            transition={{ duration: 0.5 }}
+            className="fixed border-2 top-20 right-0 h-full w-[40%] bg-white z-50 overflow-y-auto"
+          >
+            <CommentPool onClose={handleCloseComments} />
+          </m.div>
+        )}
+      </AnimatePresence>
       <div className="w-[60%]">
         {postData.author && (
           <div className="flex gap-2 items-center justify-between">
@@ -79,20 +147,21 @@ const PostDetail = () => {
                 <FaRegComments
                   className="ml-4 mr-1"
                   title="Số lượt bình luận"
+                  onClick={handleToggleComments}
                 />{" "}
                 {postData.total_comments}
                 {isLiked ? (
                   <AiFillLike
                     color="blue"
                     className="ml-4 mr-1"
-                    onClick={handleLike}
-                    title="Số lượt thích"
+                    onClick={handleUnlike}
+                    title="Bỏ thích"
                   />
                 ) : (
                   <AiOutlineLike
                     className="ml-4 mr-1"
                     onClick={handleLike}
-                    title="Số lượt thích"
+                    title="Thích"
                   />
                 )}
                 {totalLikes}
