@@ -65,7 +65,7 @@ const TextEditor = ({ initialValue, onChange }) => {
     },
   };
 
-  const handleChange = (content, delta, source, editor) => {
+  const handleChange = (content) => {
     setEditorContent(content);
     if (onChange) {
       onChange(content);

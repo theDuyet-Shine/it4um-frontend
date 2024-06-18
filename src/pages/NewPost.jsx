@@ -38,6 +38,7 @@ const NewPost = () => {
     try {
       const response = await api.post("/post", newPost);
       if (response.status === 201) toast.success("Đăng bài thành công!");
+      setTimeout(navigate(`/post/${response.data._id}`), 2000);
     } catch (error) {
       toast.error("Lỗi khi đăng bài!");
     }
