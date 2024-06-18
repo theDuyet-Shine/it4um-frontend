@@ -19,6 +19,9 @@ import { PersistGate } from "redux-persist/integration/react";
 import NewPost from "./pages/NewPost";
 import Guide from "./pages/Guide";
 import PostDetail from "./pages/PostDetail";
+import Profile from "./pages/Dashboard/Profile";
+import PostCentral from "./pages/Dashboard/PostCentral";
+import ChangePassword from "./pages/Dashboard/ChangePassword";
 
 const router = createBrowserRouter([
   {
@@ -66,6 +69,18 @@ const router = createBrowserRouter([
           {
             path: "notification",
             element: <Notification />,
+          },
+          {
+            path: "your-profile",
+            element: <Profile />,
+          },
+          {
+            path: "post-central",
+            element: <PostCentral />,
+          },
+          {
+            path: "change-password",
+            element: <ChangePassword />,
           },
         ],
       },

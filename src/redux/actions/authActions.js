@@ -15,3 +15,8 @@ export const userLogout = () => ({
 export const adminLogout = () => ({
   type: "ADMIN_LOGOUT",
 });
+
+export const updateUserInfo = (user) => ({
+  type: "UPDATE_USER_INFO",
+  payload: { user },
+});
