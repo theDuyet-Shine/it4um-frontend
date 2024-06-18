@@ -3,15 +3,17 @@ import { CgProfile } from "react-icons/cg";
 import { IoMdLogOut } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogout } from "../redux/actions/authActions";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const UserNav = ({ onMenuOpenChange }) => {
   const dispatch = useDispatch();
   const userAuth = useSelector((state) => state.user.user);
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     onMenuOpenChange(false);
     dispatch(userLogout());
+    navigate("/");
   };
 
   return (
