@@ -86,7 +86,7 @@ const Home = () => {
     >
       {/* Phần bên trái chiếm 60% */}
       <div className="w-3/5 p-4">
-        <h2 className="text-xl font-bold">PostPool</h2>
+        <h2 className="text-3xl font-bold mb-4">Bài viết</h2>
         {/* Render posts */}
         {posts.map((post) => (
           <PostItem
