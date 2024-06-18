@@ -113,9 +113,9 @@ const PostDetail = () => {
             }}
             exit={{ opacity: 0, x: "100%" }}
             transition={{ duration: 0.5 }}
-            className="fixed border-2 top-20 right-0 h-full w-[40%] bg-white z-50 overflow-y-auto"
+            className="fixed border-2 top-20 right-0 h-full w-[40%] bg-white z-50 overflow-scroll"
           >
-            <CommentPool onClose={handleCloseComments} />
+            <CommentPool postId={postData._id} onClose={handleCloseComments} />
           </m.div>
         )}
       </AnimatePresence>
