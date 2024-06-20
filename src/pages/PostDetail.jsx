@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../config/axios";
 import { motion as m, AnimatePresence } from "framer-motion";
+import { IoIosArrowUp } from "react-icons/io";
 import "react-quill/dist/quill.snow.css";
 import { BsPencilSquare } from "react-icons/bs";
 import { IoMdEye } from "react-icons/io";
@@ -18,6 +19,7 @@ const PostDetail = () => {
   const [totalLikes, setTotalLikes] = useState(0);
   const userAuth = useSelector((state) => state.user);
   const [showComments, setShowComments] = useState(false);
+  const [showScrollToTop, setShowScrollToTop] = useState(false);
 
   const fetchPost = async () => {
     try {
@@ -75,10 +77,11 @@ const PostDetail = () => {
       console.error("Error unliking post:", error);
     }
   };
+
   const handleToggleComments = () => {
     if (userAuth.isAuthenticated) {
       setShowComments(!showComments);
-    } else
+    } else {
       toast(
         "Bạn cần đăng nhập tài khoản người dùng mới có thể tương tác với bài viết",
         {
@@ -86,14 +89,39 @@ const PostDetail = () => {
           duration: 1000,
         }
       );
+    }
   };
 
   const handleCloseComments = () => {
     setShowComments(false);
   };
 
+  const handleScrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+    setShowScrollToTop(false); // Ẩn nút scrollToTop sau khi click
+  };
+
   useEffect(() => {
     fetchPost();
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.pageYOffset > 300) {
+        setShowScrollToTop(true);
+      } else {
+        setShowScrollToTop(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   return (
@@ -119,7 +147,7 @@ const PostDetail = () => {
           </m.div>
         )}
       </AnimatePresence>
-      <div className="w-[60%]">
+      <div className="w-[60%] p-4 mt-2" style={{ backgroundColor: "#F3F4F6" }}>
         {postData.author && (
           <div className="flex gap-2 items-center justify-between">
             <div className="flex gap-2 items-center">
@@ -142,10 +170,10 @@ const PostDetail = () => {
                 {new Date(postData.post_date).toLocaleString("vi-VN")}
               </p>
               <div className="flex items-center text-gray-500 text-sm mb-2">
-                <IoMdEye className="mr-1" title="Số lượt xem" />{" "}
+                <IoMdEye className="mr-1 text-xl" title="Số lượt xem" />{" "}
                 {postData.total_views}
                 <FaRegComments
-                  className="ml-4 mr-1"
+                  className="ml-4 mr-1 text-xl cursor-pointer"
                   title="Số lượt bình luận"
                   onClick={handleToggleComments}
                 />{" "}
@@ -153,13 +181,13 @@ const PostDetail = () => {
                 {isLiked ? (
                   <AiFillLike
                     color="blue"
-                    className="ml-4 mr-1"
+                    className="ml-4 mr-1 text-xl cursor-pointer"
                     onClick={handleUnlike}
                     title="Bỏ thích"
                   />
                 ) : (
                   <AiOutlineLike
-                    className="ml-4 mr-1"
+                    className="ml-4 mr-1 text-xl cursor-pointer"
                     onClick={handleLike}
                     title="Thích"
                   />
@@ -176,6 +204,21 @@ const PostDetail = () => {
           </div>
         </div>
       </div>
+      <AnimatePresence>
+        {showScrollToTop && (
+          <m.button
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, y: -500 }}
+            transition={{ duration: 0.3 }}
+            className="fixed bottom-10 right-10  text-black p-4 rounded-full shadow-lg"
+            style={{ backgroundColor: "#F3F4F6" }}
+            onClick={handleScrollToTop}
+          >
+            <IoIosArrowUp className="text-3xl" />
+          </m.button>
+        )}
+      </AnimatePresence>
     </m.div>
   );
 };

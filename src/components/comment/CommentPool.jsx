@@ -23,7 +23,7 @@ const CommentPool = ({ postId, onClose }) => {
           ...prevComments,
           ...response.data.comments,
         ]);
-        setHasMore(response.data.comments.length + 5 > comments.length);
+        setHasMore(response.data.totalComments > comments.length + 5);
         setPage(page + 1);
       }
     } catch (error) {
@@ -62,15 +62,20 @@ const CommentPool = ({ postId, onClose }) => {
   };
 
   return (
-    <div className="bg-white p-4 overflow-auto">
+    <div
+      className="bg-white p-4 overflow-auto"
+      style={{ backgroundColor: "#F3F4F6" }}
+    >
       <div className="flex justify-end">
         <AiOutlineClose className="cursor-pointer" onClick={onClose} />
       </div>
-      <div className="mt-4">
+      <div className="mt-4 bg-white">
         <TextEditor onChange={handleEditorChange} />
-        <button className="button" onClick={handleComment}>
-          Bình luận
-        </button>
+        <div style={{ backgroundColor: "#F3F4F6" }}>
+          <button className="button" onClick={handleComment}>
+            Bình luận
+          </button>
+        </div>
       </div>
       <div>
         {comments.map((comment, index) => (

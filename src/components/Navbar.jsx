@@ -46,7 +46,7 @@ const Navbar = () => {
       transition={{ duration: 0.75, ease: "easeOut" }}
       className="z-10"
     >
-      <nav className="flex justify-between items-center bg-white border-b-2">
+      <nav className="flex justify-between items-center bg-white border-b-2 shadow-md">
         {/* Logo */}
         <Link to={"/"} className="flex items-center">
           <img src={logo} alt="Logo" className="h-20 w-20 ml-8" />
@@ -58,13 +58,13 @@ const Navbar = () => {
             onClick={() => {
               navigate("/guide");
             }}
-            className="gap-1 flex items-center px-4 py-2 border rounded-full text-gray-700 bg-white cursor-pointer hover:bg-slate-200"
+            className="gap-1 flex items-center px-4 py-2 border rounded-full text-gray-700 bg-gray-100 cursor-pointer hover:bg-gray-200"
           >
             Hướng dẫn và Quy tắc
           </button>
           <button
             onClick={handleNewPostClick}
-            className="gap-1 flex items-center px-4 py-2 border rounded-full text-gray-700 bg-white cursor-pointer hover:bg-slate-200"
+            className="gap-1 flex items-center px-4 py-2 border rounded-full text-gray-700 bg-gray-100 cursor-pointer hover:bg-gray-200"
           >
             <BsPencilSquare />
             Viết bài
@@ -73,13 +73,13 @@ const Navbar = () => {
           {userAuth.isAuthenticated ? (
             <div className="gap-2 flex" ref={menuRef}>
               <Link to={"/dashboard/notification"}>
-                <button className="w-10 h-10 rounded-full border flex justify-center items-center hover:bg-slate-200">
-                  <GoBell className="w-10 h-6 " />
+                <button className="w-10 h-10 rounded-full border flex justify-center items-center hover:bg-gray-200">
+                  <GoBell className="w-6 h-6 " />
                 </button>
               </Link>
               <div>
                 <button
-                  className="flex items-center space-x-4 rounded-full border-2 h-10 w-10 justify-center hover:bg-slate-100"
+                  className="flex items-center space-x-4 rounded-full border-2 h-10 w-10 justify-center hover:bg-gray-100"
                   onClick={toggleMenu}
                 >
                   <img
@@ -96,14 +96,10 @@ const Navbar = () => {
           ) : (
             <>
               <Link to="/login">
-                <button className="px-4 py-2 bg-black text-white rounded-full shadow-md">
-                  Đăng nhập
-                </button>
+                <button className="button">Đăng nhập</button>
               </Link>
               <Link to="/signup">
-                <button className="px-4 py-2 border rounded-full text-gray-700 bg-gray-100 shadow-md">
-                  Đăng ký
-                </button>
+                <button className="button">Đăng ký</button>
               </Link>
             </>
           )}

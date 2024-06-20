@@ -17,7 +17,7 @@ const UserNav = ({ onMenuOpenChange }) => {
   };
 
   return (
-    <div className="bg-white absolute mt-1 right-2 border w-40 overflow-hidden font-bold">
+    <div className="bg-white absolute mt-1 right-2 border w-40 overflow-hidden font-bold z-50">
       <Link
         to="/dashboard/your-profile"
         className="flex link pl-2 py-2 items-center gap-3"
