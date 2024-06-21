@@ -2,15 +2,21 @@ import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import InputBox from "../../components/InputBox";
 import api from "../../config/axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { userLogout } from "../../redux/actions/authActions";
+import { useNavigate } from "react-router-dom";
 
 const ChangePassword = () => {
   const [email, setEmail] = useState("");
   const [isVerificationRequested, setIsVerificationRequested] = useState(false);
+  const [showPasswordInput, setShowPasswordInput] = useState(false);
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [countdown, setCountdown] = useState(0);
+  const [otp, setOtp] = useState("");
   const userAuth = useSelector((state) => state.user);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleRequestVerification = async () => {
     if (userAuth.user.email !== email) {
@@ -21,6 +27,7 @@ const ChangePassword = () => {
       });
       if (response.status === 200) {
         setIsVerificationRequested(true);
+        setShowPasswordInput(true);
         setCountdown(60);
         toast.success("Hãy kiểm tra hòm thư của bạn");
       } else {
@@ -41,12 +48,51 @@ const ChangePassword = () => {
     return () => clearTimeout(timer);
   }, [countdown]);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("Submitted:", { email, newPassword, confirmPassword });
-    setEmail("");
-    setNewPassword("");
-    setConfirmPassword("");
+
+    // Kiểm tra các trường nhập liệu đầy đủ
+    if (!otp || !newPassword || !confirmPassword) {
+      toast.error("Vui lòng nhập đầy đủ thông tin!");
+      return;
+    }
+
+    // Kiểm tra mật khẩu mới và mật khẩu xác nhận có khớp nhau không
+    if (newPassword !== confirmPassword) {
+      toast.error("Mật khẩu nhắc lại không trùng với mật khẩu mới!");
+      return;
+    }
+
+    try {
+      // Gửi OTP để xác thực
+      const res = await api.post("auth/validate-otp", {
+        email: email,
+        otp: otp,
+      });
+
+      if (res.status === 200) {
+        // Nếu OTP hợp lệ, cập nhật mật khẩu
+        const response = await api.put(
+          `/user/change-password/${userAuth.user._id}`,
+          {
+            password: confirmPassword,
+          }
+        );
+
+        if (response.status === 200) {
+          // Cập nhật thông tin người dùng sau khi đổi mật khẩu thành công
+          toast.success("Mật khẩu đã được thay đổi thành công!");
+          dispatch(userLogout());
+          navigate("/login");
+        } else {
+          toast.error("Có lỗi khi cập nhật mật khẩu. Vui lòng thử lại sau!");
+        }
+      } else {
+        toast.error("Có lỗi khi xác thực OTP. Vui lòng thử lại sau!");
+      }
+    } catch (error) {
+      toast.error("Có lỗi xảy ra: " + error.message);
+    }
   };
 
   return (
@@ -81,8 +127,20 @@ const ChangePassword = () => {
               </span>
             )}
           </div>
-          {isVerificationRequested && (
+          {showPasswordInput && (
             <>
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700">
+                  Mã xác nhận:
+                  <InputBox
+                    type="text"
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value)}
+                    placeholder="Mã xác nhận"
+                    disabled={false}
+                  />
+                </label>
+              </div>
               <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700">
                   Mật khẩu mới:
@@ -110,7 +168,7 @@ const ChangePassword = () => {
             </>
           )}
           <div className="mb-4">
-            {isVerificationRequested && (
+            {showPasswordInput && (
               <button type="submit" className="button">
                 Đổi mật khẩu
               </button>

@@ -7,6 +7,7 @@ import TextEditor from "../components/TextEditor";
 import PreviewPost from "../components/post/PreviewPost";
 import MultipleSelectChip from "../components/post/MultiSelectChip";
 import api from "../config/axios";
+import { IoIosArrowUp } from "react-icons/io";
 
 const NewPost = () => {
   const navigate = useNavigate();
@@ -15,7 +16,8 @@ const NewPost = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [selectedOption, setSelectedOption] = useState("write");
-  const [tags, setTags] = useState([]); // State để lưu trữ các tag được chọn
+  const [tags, setTags] = useState([]);
+  const [showScrollToTop, setShowScrollToTop] = useState(false); // State để điều khiển hiển thị nút scroll
 
   useEffect(() => {
     if (!userAuth.isAuthenticated) {
@@ -38,11 +40,35 @@ const NewPost = () => {
     try {
       const response = await api.post("/post", newPost);
       if (response.status === 201) toast.success("Đăng bài thành công!");
-      setTimeout(navigate(`/post/${response.data._id}`), 2000);
+      setTimeout(() => navigate(`/post/${response.data._id}`), 2000); // Điều hướng sau khi đăng bài
     } catch (error) {
       toast.error("Lỗi khi đăng bài!");
     }
   };
+
+  const handleScrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+    setShowScrollToTop(false); // Ẩn nút scrollToTop sau khi click
+  };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.pageYOffset > 300) {
+        setShowScrollToTop(true);
+      } else {
+        setShowScrollToTop(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
     <m.div
@@ -91,12 +117,14 @@ const NewPost = () => {
             <label className="block text-xl font-medium text-gray-700 mb-2 mt-2">
               Thẻ
             </label>
+            {/* Component MultipleSelectChip để chọn tag */}
             <MultipleSelectChip value={tags} onChange={handleTagsChange} />
           </div>
           <div>
             <label className="block text-xl font-medium text-gray-700 mb-2">
               Nội dung
             </label>
+            {/* Component TextEditor để nhập nội dung */}
             <TextEditor initialValue={content} onChange={setContent} />
           </div>
           <button type="submit" className="button">
@@ -106,6 +134,23 @@ const NewPost = () => {
       ) : (
         <PreviewPost title={title} content={content} />
       )}
+
+      {/* Nút scroll to top */}
+      <m.AnimatePresence>
+        {showScrollToTop && (
+          <m.button
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, y: -500 }}
+            transition={{ duration: 0.3 }}
+            className="fixed bottom-10 right-10 text-black p-4 rounded-full shadow-lg"
+            style={{ backgroundColor: "#F3F4F6" }}
+            onClick={handleScrollToTop}
+          >
+            <IoIosArrowUp className="text-3xl" />
+          </m.button>
+        )}
+      </m.AnimatePresence>
     </m.div>
   );
 };

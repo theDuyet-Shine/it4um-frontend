@@ -125,7 +125,7 @@ const Profile = () => {
             <label
               htmlFor="uploadImg"
               id="profileImgLabel"
-              className="relative block w-full h-48 bg-gray-100 rounded-full overflow-hidden"
+              className="relative block w-48 h-48 bg-gray-100 rounded-full overflow-hidden ml-12"
             >
               <div className="w-full h-full absolute top-0 left-0 flex items-center justify-center text-white bg-black/80 opacity-0 hover:opacity-100 cursor-pointer">
                 Tải ảnh lên
@@ -149,7 +149,7 @@ const Profile = () => {
         <div className="w-2/3 pl-8">
           <div className="flex">
             {/* First column */}
-            <div className="w-1/2 pr-4 min-w-[300px]">
+            <div className="w-1/2 pr-4 min-w-[400px]">
               <div className="mb-6">
                 <label className="block font-semibold mb-2" htmlFor="fullname">
                   Họ và tên
@@ -195,7 +195,7 @@ const Profile = () => {
               </div>
             </div>
             {/* Second column */}
-            <div className="w-1/2 pl-4 min-w-[300px]">
+            <div className="w-1/2 pl-4 min-w-[400px]">
               <div className="mb-6">
                 <label
                   className="block font-semibold mb-2"
