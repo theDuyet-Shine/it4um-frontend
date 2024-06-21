@@ -1,7 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+
 #root {
-  margin: 0 auto;
+  margin: auto;
   text-align: center;
-  font-family: "Roboto Slab", serif;
+  font-family: "Roboto", sans-serif;
   line-height: 1.6;
 }
 
@@ -32,7 +34,7 @@
 }
 
 .ql-editor {
-  font-family: "Times New Roman", Times, serif;
+  font-family: "Roboto", sans-serif;
   line-height: 1.6;
 }
 
@@ -41,7 +43,7 @@
 }
 
 .font-time {
-  font-family: "Times New Roman", Times, serif;
+  font-family: "Roboto", sans-serif;
 }
 
 .scroll-to-top {
@@ -58,4 +60,8 @@
 
 .icon:hover {
   color: #007bff; /* Màu sắc hover của icon */
+}
+
+.font-segoe {
+  font-family: "Segoe UI", Arial, sans-serif;
 }

@@ -58,13 +58,13 @@ const Navbar = () => {
             onClick={() => {
               navigate("/guide");
             }}
-            className="gap-1 flex items-center px-4 py-2 border rounded-full text-gray-700 bg-gray-100 cursor-pointer hover:bg-gray-200"
+            className="gap-1 flex items-center px-4 py-2 border rounded-full button"
           >
             Hướng dẫn và Quy tắc
           </button>
           <button
             onClick={handleNewPostClick}
-            className="gap-1 flex items-center px-4 py-2 border rounded-full text-gray-700 bg-gray-100 cursor-pointer hover:bg-gray-200"
+            className="gap-1 flex items-center px-4 py-2 border rounded-full button"
           >
             <BsPencilSquare />
             Viết bài
@@ -73,8 +73,8 @@ const Navbar = () => {
           {userAuth.isAuthenticated ? (
             <div className="gap-2 flex" ref={menuRef}>
               <Link to={"/dashboard/notification"}>
-                <button className="w-10 h-10 rounded-full border flex justify-center items-center hover:bg-gray-200">
-                  <GoBell className="w-6 h-6 " />
+                <button className="w-10 h-10 rounded-full border flex justify-center items-center bg-blue-600 hover:scale-110">
+                  <GoBell className="w-6 h-6 text-white" />
                 </button>
               </Link>
               <div>
@@ -84,7 +84,7 @@ const Navbar = () => {
                 >
                   <img
                     src={userAuth.user.profile_image}
-                    className="h-10 w-10 rounded-full cursor-pointer"
+                    className="h-10 w-10 rounded-full cursor-pointer border border-blue-600"
                     alt="User Profile"
                   />
                 </button>

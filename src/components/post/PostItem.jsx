@@ -18,7 +18,7 @@ const PostItem = ({ post, handleTagClick }) => {
           <img
             src={post.author.profile_image}
             alt={post.author.fullname}
-            className="w-10 h-10 rounded-full border-2 border-blue-500"
+            className="w-10 h-10 rounded-full border border-blue-500"
           />
           <div>
             <p className="font-semibold text-blue-600">
@@ -31,7 +31,7 @@ const PostItem = ({ post, handleTagClick }) => {
         </div>
       </div>
       <h3
-        className="text-lg font-bold mb-2 text-gray-800 cursor-pointer hover:text-blue-600"
+        className="text-lg font-bold mb-2 text-gray-800 cursor-pointer hover:text-blue-600 hover:scale-105"
         onClick={() => {
           navigate(`/post/${post._id}`);
         }}
@@ -51,7 +51,7 @@ const PostItem = ({ post, handleTagClick }) => {
           <Chip
             key={index}
             label={tag}
-            className="bg-white border border-gray-300 hover:bg-gray-200 text-gray-800 hover:text-white cursor-pointer"
+            className="button"
             onClick={() => {
               handleTagClick(tag);
             }}

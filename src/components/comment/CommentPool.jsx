@@ -63,10 +63,10 @@ const CommentPool = ({ postId, onClose }) => {
 
   return (
     <div
-      className="bg-white p-4 overflow-auto"
+      className="bg-white p-4 overflow-auto h-full"
       style={{ backgroundColor: "#F3F4F6" }}
     >
-      <div className="flex justify-end">
+      <div className="flex justify-end ">
         <AiOutlineClose className="cursor-pointer" onClick={onClose} />
       </div>
       <div className="mt-4 bg-white">

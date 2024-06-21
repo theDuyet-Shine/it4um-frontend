@@ -165,14 +165,11 @@ const Home = () => {
           <div className="flex gap-3">
             <button
               onClick={handleClearFilter}
-              className="button bg-gray-300 hover:bg-gray-400 text-gray-800"
+              className="button bg-gray-300 hover:bg-gray-200 text-black"
             >
               Làm sạch bộ lọc
             </button>
-            <button
-              onClick={handleFilter}
-              className="button bg-gray-800 hover:bg-gray-900 text-white"
-            >
+            <button onClick={handleFilter} className="button ">
               Lọc
             </button>
           </div>

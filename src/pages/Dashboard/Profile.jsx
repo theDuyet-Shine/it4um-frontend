@@ -43,6 +43,7 @@ const Profile = () => {
       console.error("Error fetching profile data:", error);
     }
   };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setProfileData((prevData) => ({
@@ -53,11 +54,11 @@ const Profile = () => {
 
   const handleUploadImage = async (e) => {
     const file = e.target.files[0];
-    if (!file) return; // Đảm bảo rằng đã chọn file
+    if (!file) return;
 
-    const randomString = getRandomString(8); // Chuỗi ngẫu nhiên 8 ký tự
-    const cleanFileName = file.name.replace(/[^a-zA-Z0-9.]/g, ""); // Làm sạch tên file
-    const fileName = `${randomString}_${cleanFileName}`; // Tên file mới
+    const randomString = getRandomString(8);
+    const cleanFileName = file.name.replace(/[^a-zA-Z0-9.]/g, "");
+    const fileName = `${randomString}_${cleanFileName}`;
     const storageRef = ref(storage, `/profile_image/${fileName}`);
 
     try {
@@ -67,13 +68,13 @@ const Profile = () => {
         ...prevData,
         profile_image: imageUrl,
       }));
-      toast.success("Tải ảnh lên thành công!");
+      toast.success("Image uploaded successfully!");
     } catch (error) {
       console.error("Error uploading image:", error);
     }
   };
 
-  const validatePNum = (phoneNumber) => {
+  const validatePhoneNumber = (phoneNumber) => {
     const errors = {};
 
     if (!phoneNumber) {
@@ -81,8 +82,7 @@ const Profile = () => {
     }
 
     if (!/^\d{10}$/.test(phoneNumber)) {
-      errors.phone_number =
-        "Số điện thoại phải là chuỗi số và có độ dài là 10 kí tự";
+      errors.phone_number = "Phone number must be a string of 10 digits";
     }
 
     return errors;
@@ -90,7 +90,7 @@ const Profile = () => {
 
   const handleSubmit = async () => {
     const phoneNumber = profileData.phone_number;
-    const errors = validatePNum(phoneNumber);
+    const errors = validatePhoneNumber(phoneNumber);
 
     if (Object.keys(errors).length > 0) {
       toast.error(errors.phone_number);
@@ -101,114 +101,157 @@ const Profile = () => {
       const response = await api.put(`/user/${userAuth.user._id}`, profileData);
       if (response.status === 200) {
         dispatch(updateUserInfo(profileData));
-        toast.success("Cập nhật thông tin thành công!");
+        toast.success("Profile updated successfully!");
       }
     } catch (error) {
-      toast.error("Có lỗi khi cập nhật thông tin!");
-      console.log(error);
+      toast.error("Error updating profile information!");
+      console.error("Error updating profile:", error);
     }
   };
 
   useEffect(() => {
     fetchData();
   }, []);
+
   return (
-    <div className="">
-      <h1 className="font-bold text-2xl">Thông tin cá nhân</h1>
-      <div className="flex flex-rows items-start py-4 gap-4">
-        {/* upload image field */}
-        <div className="mb-5 mt-16">
-          <label
-            htmlFor="uploadImg"
-            id="profileImgLabel"
-            className=" relative block w-48 h-48 bg-gray-100 rounded-full overflow-hidden"
-          >
-            <div className="w-full h-full absolute top-0 left-0 flex items-center justify-center text-white bg-black/80 opacity-0 hover:opacity-100 cursor-pointer">
-              Tải ảnh lên
-            </div>
-            <img src={profileData.profile_image} />
-          </label>
-          <input
-            type="file"
-            id="uploadImg"
-            accept=".jpg, .png, .jpeg"
-            hidden
-            onChange={handleUploadImage}
-          ></input>
+    <div className="container mx-auto px-4">
+      <h1 className="font-bold text-3xl mb-6 flex justify-center ml-96 text-blue-600">
+        Thông tin cá nhân
+      </h1>
+      <div className="flex items-center">
+        {/* Image upload section (30% width) */}
+        <div className="w-1/3 pr-8">
+          <div className="mb-6">
+            <label
+              htmlFor="uploadImg"
+              id="profileImgLabel"
+              className="relative block w-full h-48 bg-gray-100 rounded-full overflow-hidden"
+            >
+              <div className="w-full h-full absolute top-0 left-0 flex items-center justify-center text-white bg-black/80 opacity-0 hover:opacity-100 cursor-pointer">
+                Tải ảnh lên
+              </div>
+              <img
+                src={profileData.profile_image}
+                alt="Profile"
+                className="object-cover w-full h-full rounded-full border-black border"
+              />
+            </label>
+            <input
+              type="file"
+              id="uploadImg"
+              accept=".jpg, .png, .jpeg"
+              hidden
+              onChange={handleUploadImage}
+            />
+          </div>
         </div>
-        {/* inputBox field */}
-        <div className="w-[1000px]">
-          <div className="">
-            <div className="flex items-center">
-              <div className="w-[800px]">
+        {/* Profile input section (70% width) */}
+        <div className="w-2/3 pl-8">
+          <div className="flex">
+            {/* First column */}
+            <div className="w-1/2 pr-4 min-w-[300px]">
+              <div className="mb-6">
+                <label className="block font-semibold mb-2" htmlFor="fullname">
+                  Họ và tên
+                </label>
                 <InputBox
+                  id="fullname"
                   name="fullname"
                   type="text"
-                  value={profileData.fullname || ""}
-                  placeholder="Họ tên"
-                  className="w-[100%]"
+                  value={profileData.fullname}
+                  placeholder="Họ và tên"
                   onChange={handleInputChange}
-                ></InputBox>
+                  className="w-full"
+                />
               </div>
-            </div>
-
-            <div className="flex items-center">
-              <div className="w-[800px]">
+              <div className="mb-6">
+                <label className="block font-semibold mb-2" htmlFor="email">
+                  Email
+                </label>
                 <InputBox
+                  id="email"
                   name="email"
                   type="email"
-                  value={profileData.email || ""}
+                  value={profileData.email}
                   placeholder="Email"
-                  className="w-[100%]"
                   onChange={handleInputChange}
-                  disabled={true}
-                ></InputBox>
+                  disabled
+                  className="w-full"
+                />
               </div>
-            </div>
-
-            <div className="flex items-center">
-              <div className="w-[800px]">
+              <div className="mb-6">
+                <label className="block font-semibold mb-2" htmlFor="address">
+                  Địa chỉ
+                </label>
                 <InputBox
+                  id="address"
                   name="address"
                   type="text"
-                  value={profileData.address || ""}
-                  placeholder="Địa chỉ"
-                  className="w-[100%]"
+                  value={profileData.address}
+                  placeholder="Không"
                   onChange={handleInputChange}
-                ></InputBox>
+                  className="w-full"
+                />
               </div>
             </div>
-
-            <div className="flex items-center">
-              <div className="w-[800px]">
+            {/* Second column */}
+            <div className="w-1/2 pl-4 min-w-[300px]">
+              <div className="mb-6">
+                <label
+                  className="block font-semibold mb-2"
+                  htmlFor="phone_number"
+                >
+                  Điện thoại
+                </label>
                 <InputBox
+                  id="phone_number"
                   name="phone_number"
                   type="text"
-                  value={profileData.phone_number || ""}
-                  placeholder="Điện thoại"
-                  className="w-[100%]"
+                  value={profileData.phone_number}
+                  placeholder="Không"
                   onChange={handleInputChange}
-                ></InputBox>
+                  className="w-full"
+                />
               </div>
-            </div>
-
-            <div className="flex items-center">
-              <div className="w-[800px]">
+              <div className="mb-6">
+                <label className="block font-semibold mb-2" htmlFor="expertise">
+                  Chuyên môn
+                </label>
                 <InputBox
+                  id="expertise"
                   name="expertise"
                   type="text"
-                  value={profileData.expertise || ""}
-                  placeholder="Chuyên môn"
-                  className="w-[100%]"
+                  value={profileData.expertise}
+                  placeholder="Không"
                   onChange={handleInputChange}
-                ></InputBox>
+                  className="w-full"
+                />
+              </div>
+              <div className="mb-6">
+                <label
+                  className="block font-semibold mb-2"
+                  htmlFor="violation_score"
+                >
+                  Mức độ vi phạm
+                </label>
+                <InputBox
+                  id="violation_score"
+                  name="violation_score"
+                  type="text"
+                  value={profileData.violation_score}
+                  placeholder=""
+                  disabled
+                  className="w-full"
+                />
               </div>
             </div>
           </div>
-          <button className="button mr-40" onClick={handleSubmit}>
-            Cập nhật
-          </button>
         </div>
+      </div>
+      <div className="flex justify-center mt-8 ml-96">
+        <button className="button" onClick={handleSubmit}>
+          Cập nhật
+        </button>
       </div>
     </div>
   );
