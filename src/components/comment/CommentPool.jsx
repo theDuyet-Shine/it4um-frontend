@@ -4,6 +4,7 @@ import TextEditor from "../TextEditor";
 import api from "../../config/axios";
 import { useSelector } from "react-redux";
 import CommentItem from "./CommentItem";
+import "react-quill/dist/quill.snow.css";
 
 const CommentPool = ({ postId, onClose }) => {
   const [editorContent, setEditorContent] = useState("");
@@ -47,6 +48,7 @@ const CommentPool = ({ postId, onClose }) => {
       if (response.status === 201) {
         const newComment = response.data;
         setComments((prevComments) => [newComment, ...prevComments]);
+        setEditorContent("");
       }
     } catch (error) {
       console.log(error);
@@ -61,6 +63,22 @@ const CommentPool = ({ postId, onClose }) => {
     fetchComments();
   };
 
+  const handleReplyAdded = (reply) => {
+    const addReplyToComments = (comments) => {
+      return comments.map((comment) => {
+        if (comment._id === reply.reply_to) {
+          return { ...comment, replies: [reply, ...(comment.replies || [])] };
+        }
+        if (comment.replies) {
+          return { ...comment, replies: addReplyToComments(comment.replies) };
+        }
+        return comment;
+      });
+    };
+
+    setComments((prevComments) => addReplyToComments(prevComments));
+  };
+
   return (
     <div
       className="bg-white p-4 overflow-auto h-full"
@@ -70,7 +88,7 @@ const CommentPool = ({ postId, onClose }) => {
         <AiOutlineClose className="cursor-pointer" onClick={onClose} />
       </div>
       <div className="mt-4 bg-white">
-        <TextEditor onChange={handleEditorChange} />
+        <TextEditor onChange={handleEditorChange} value={editorContent} />
         <div style={{ backgroundColor: "#F3F4F6" }}>
           <button className="button" onClick={handleComment}>
             Bình luận
@@ -78,8 +96,12 @@ const CommentPool = ({ postId, onClose }) => {
         </div>
       </div>
       <div>
-        {comments.map((comment, index) => (
-          <CommentItem key={comment._id} comment={comment} />
+        {comments.map((comment) => (
+          <CommentItem
+            key={comment._id}
+            comment={comment}
+            onReplyAdded={handleReplyAdded}
+          />
         ))}
       </div>
       {hasMore && (

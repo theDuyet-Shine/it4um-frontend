@@ -94,9 +94,11 @@ const Navbar = () => {
             <div className="gap-2 flex" ref={menuRef}>
               <Link to={"/dashboard/notification"}>
                 <button className="w-10 h-10 rounded-full border flex justify-center items-center bg-blue-600 ">
-                  <span className="text-white w-5 h-5 rounded-full bg-red-600 absolute top-4 right-[75px] flex items-center justify-center">
-                    {unreadCount}
-                  </span>
+                  {unreadCount !== 0 ? (
+                    <span className="text-white w-5 h-5 rounded-full bg-red-600 absolute top-4 right-[75px] flex items-center justify-center">
+                      {unreadCount}
+                    </span>
+                  ) : null}
                   <GoBell className="w-6 h-6 text-white" />
                 </button>
               </Link>
