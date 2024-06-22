@@ -6,12 +6,14 @@ import { GoBell } from "react-icons/go";
 import { BsPencilSquare } from "react-icons/bs";
 import UserNav from "./UserNav";
 import { motion as m } from "framer-motion";
+import api from "../config/axios";
 
 const Navbar = () => {
   const userAuth = useSelector((state) => state.user);
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
+  const [unreadCount, setUnreadCount] = useState(0);
 
   useEffect(() => {
     const handleOutsideClick = (e) => {
@@ -26,6 +28,24 @@ const Navbar = () => {
       document.removeEventListener("mousedown", handleOutsideClick);
     };
   }, []);
+
+  useEffect(() => {
+    const fetchUnreadCount = async () => {
+      try {
+        const response = await api.get(
+          `/notification/un-read/${userAuth.user._id}`
+        );
+        console.log(response.data);
+        setUnreadCount(response.data.unreadCount);
+      } catch (error) {
+        console.error("Error fetching unread notifications:", error);
+      }
+    };
+
+    if (userAuth.isAuthenticated) {
+      fetchUnreadCount();
+    }
+  }, [unreadCount]);
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -73,10 +93,14 @@ const Navbar = () => {
           {userAuth.isAuthenticated ? (
             <div className="gap-2 flex" ref={menuRef}>
               <Link to={"/dashboard/notification"}>
-                <button className="w-10 h-10 rounded-full border flex justify-center items-center bg-blue-600 hover:scale-110">
+                <button className="w-10 h-10 rounded-full border flex justify-center items-center bg-blue-600 ">
+                  <span className="text-white w-5 h-5 rounded-full bg-red-600 absolute top-4 right-[75px] flex items-center justify-center">
+                    {unreadCount}
+                  </span>
                   <GoBell className="w-6 h-6 text-white" />
                 </button>
               </Link>
+
               <div>
                 <button
                   className="flex items-center space-x-4 rounded-full border-2 h-10 w-10 justify-center hover:bg-gray-100"

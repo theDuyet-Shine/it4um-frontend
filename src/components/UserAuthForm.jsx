@@ -64,26 +64,31 @@ const UserAuthForm = ({ type, loginType }) => {
         otp: formData.otp,
       });
       if (res.status === 200) {
-        const response = await api.post("auth/signup", {
-          username: formData.username,
-          password: formData.password,
-          fullname: formData.fullname,
-          email: formData.email,
-        });
-        if (response.status === 201) {
-          toast.success(
-            "Đăng ký thành công! Bạn sẽ được chuyển hướng đến trang đăng nhập sau 3 giây",
-            {
-              duration: 2500,
-            }
-          );
-          setTimeout(() => {
-            navigate("/login");
-          }, 3000);
+        try {
+          const response = await api.post("auth/signup", {
+            username: formData.username,
+            password: formData.password,
+            fullname: formData.fullname,
+            email: formData.email,
+          });
+          if (response.status === 201) {
+            toast.success(
+              "Đăng ký thành công! Bạn sẽ được chuyển hướng đến trang đăng nhập sau 3 giây",
+              {
+                duration: 2500,
+              }
+            );
+            setTimeout(() => {
+              navigate("/login");
+            }, 3000);
+          }
+        } catch (error) {
+          toast.error(error.response.data.message);
+          setShowOtpForm(false);
         }
       }
     } catch (error) {
-      toast.error("Có lỗi xảy ra khi đăng ký");
+      toast.error(error.response.data.error);
     }
   };
 

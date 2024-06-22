@@ -11,7 +11,6 @@ import Home from "./pages/Home";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import LoginPageAdmin from "./pages/LoginPageAdmin";
-import Notification from "./pages/Notification";
 import DashboardLayout from "./layout/DashboardLayout";
 import { Provider } from "react-redux";
 import store, { persistor } from "./redux/store";
@@ -22,6 +21,7 @@ import PostDetail from "./pages/PostDetail";
 import Profile from "./pages/Dashboard/Profile";
 import PostCentral from "./pages/Dashboard/PostCentral";
 import ChangePassword from "./pages/Dashboard/ChangePassword";
+import Notification from "./pages/Dashboard/Notification";
 
 const router = createBrowserRouter([
   {
