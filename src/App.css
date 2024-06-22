@@ -65,3 +65,27 @@
 .font-segoe {
   font-family: "Segoe UI", Arial, sans-serif;
 }
+
+.notification-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Để căn giữa box theo chiều dọc */
+}
+
+.notification-box {
+  width: 70%; /* Chiều rộng của box thông báo */
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  position: relative; /* Để thời gian có thể được định vị tuyệt đối */
+}
+
+.notification-time {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 12px;
+  color: #666;
+}

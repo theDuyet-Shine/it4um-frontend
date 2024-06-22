@@ -64,19 +64,20 @@ const CommentPool = ({ postId, onClose }) => {
   };
 
   const handleReplyAdded = (reply) => {
-    const addReplyToComments = (comments) => {
-      return comments.map((comment) => {
-        if (comment._id === reply.reply_to) {
-          return { ...comment, replies: [reply, ...(comment.replies || [])] };
-        }
-        if (comment.replies) {
-          return { ...comment, replies: addReplyToComments(comment.replies) };
-        }
-        return comment;
-      });
-    };
-
-    setComments((prevComments) => addReplyToComments(prevComments));
+    setComments((prevComments) => {
+      const addReplyToComments = (comments) => {
+        return comments.map((comment) => {
+          if (comment._id === reply.reply_to) {
+            return { ...comment, replies: [reply, ...(comment.replies || [])] };
+          }
+          if (comment.replies) {
+            return { ...comment, replies: addReplyToComments(comment.replies) };
+          }
+          return comment;
+        });
+      };
+      return addReplyToComments(prevComments);
+    });
   };
 
   return (

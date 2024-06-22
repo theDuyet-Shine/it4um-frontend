@@ -20,10 +20,10 @@ const CommentItem = ({ comment, onReplyAdded, isReply = false }) => {
       });
       if (response.status === 201) {
         const newReply = response.data;
-        onReplyAdded(newReply); // Cập nhật dữ liệu trong comment cha
+        onReplyAdded(newReply); // Update parent comment with the new reply
         setShowReplyForm(false);
         setReplyContent("");
-        setShowReplies(true); // Hiển thị replies sau khi reply được thêm vào
+        setShowReplies(true);
       }
     } catch (error) {
       console.log(error);
@@ -74,7 +74,7 @@ const CommentItem = ({ comment, onReplyAdded, isReply = false }) => {
       )}
       {showReplyForm && (
         <div className="mt-4 ml-4">
-          <TextEditor onChange={handleReplyChange} />
+          <TextEditor onChange={handleReplyChange} value={replyContent} />
           <button className="button mt-2" onClick={handleReply}>
             Gửi phản hồi
           </button>
