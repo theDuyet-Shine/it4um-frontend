@@ -13,7 +13,12 @@ const PostItem = ({ post, handleTagClick }) => {
       className="mb-4 p-4 border rounded cursor-pointer w-full shadow-lg"
       style={{ backgroundColor: "#F3F4F6" }}
     >
-      <div className="flex justify-between items-center mb-2">
+      <div
+        className="flex justify-between items-center mb-2"
+        onClick={() => {
+          navigate(`/user-profile/${post.author._id}`);
+        }}
+      >
         <div className="flex items-center gap-2">
           <img
             src={post.author.profile_image}

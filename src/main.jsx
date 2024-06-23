@@ -22,6 +22,7 @@ import Profile from "./pages/Dashboard/Profile";
 import PostCentral from "./pages/Dashboard/PostCentral";
 import ChangePassword from "./pages/Dashboard/ChangePassword";
 import Notification from "./pages/Dashboard/Notification";
+import UserProfile from "./pages/UserProfile";
 
 const router = createBrowserRouter([
   {
@@ -61,6 +62,10 @@ const router = createBrowserRouter([
       {
         path: "post/:id",
         element: <PostDetail />,
+      },
+      {
+        path: "user-profile/:id",
+        element: <UserProfile />,
       },
       {
         path: "/dashboard",

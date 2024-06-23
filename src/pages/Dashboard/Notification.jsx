@@ -13,7 +13,7 @@ const Notification = () => {
   const [notifications, setNotifications] = useState([]);
   const [page, setPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
-  const perPage = 5; // Number of notifications per page
+  const perPage = 5;
   const navigate = useNavigate();
 
   const fetchNoti = async (page) => {
@@ -48,6 +48,7 @@ const Notification = () => {
   const formatTimeDifference = (commentAt) => {
     const currentTime = new Date();
     const commentTime = new Date(commentAt);
+    console.log(currentTime, commentTime);
     const diffMs = currentTime - commentTime;
     const diffSeconds = Math.floor(diffMs / 1000);
     if (diffSeconds < 60) {
@@ -91,17 +92,25 @@ const Notification = () => {
                 alignItems: "center",
                 cursor: "pointer", // Thêm style để hiển thị con trỏ chuột khi hover
               }}
-              onClick={() => handleNotificationClick(notification.post_id)}
             >
               <Avatar
                 alt="Profile Image"
                 src={notification.commenter_id.profile_image}
                 sx={{ width: 40, height: 40, marginRight: 2 }}
+                onClick={() => {
+                  navigate(`/user-profile/${notification.commenter_id._id}`);
+                }}
               />
+
               <div>
-                <Typography variant="body1">{notification.message}</Typography>
+                <Typography
+                  variant="body1"
+                  onClick={() => handleNotificationClick(notification.post_id)}
+                >
+                  {notification.message}
+                </Typography>
                 <Typography variant="caption" color="text.secondary">
-                  {formatTimeDifference(notification.comment_at)}
+                  {formatTimeDifference(notification.created_at)}
                 </Typography>
               </div>
             </Box>
