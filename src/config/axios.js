@@ -2,8 +2,13 @@ import axios from "axios";
 import store from "../redux/store";
 
 const getToken = () => {
-  const { token } = store.getState().user || store.getState().admin;
+  const { token } = store.getState().user;
   return token;
+};
+
+const getAdminToken = () => {
+  const adminToken = store.getState().admin.token;
+  return adminToken;
 };
 
 const api = axios.create({
@@ -18,6 +23,11 @@ api.interceptors.request.use(
     const token = getToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
+    } else {
+      const adminToken = getAdminToken();
+      if (adminToken) {
+        config.headers.Authorization = `Bearer ${adminToken}`;
+      }
     }
     return config;
   },

@@ -98,7 +98,7 @@ const ChangePassword = () => {
   return (
     <div className="flex p-6 bg-white rounded-md place-items-center">
       <div className="shadow-lg border px-16 py-16 mt-16 ml-72">
-        <h2 className="text-2xl mb-4 font-bold">Change Password</h2>
+        <h2 className="text-2xl mb-4 font-bold text-blue-600">Đổi mật khẩu</h2>
         <form onSubmit={handleSubmit}>
           <div className="relative mb-4 min-w-[400px]">
             <input

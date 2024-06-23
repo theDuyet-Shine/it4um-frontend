@@ -10,6 +10,7 @@ const adminReducer = (state = initialState, action) => {
         ...state,
         isAuthenticated: true,
         admin: action.payload,
+        token: action.payload.token,
       };
     case "ADMIN_LOGOUT":
       return initialState;
