@@ -2,7 +2,7 @@ import axios from "axios";
 import store from "../redux/store";
 
 const getToken = () => {
-  const { token } = store.getState().user;
+  const { token } = store.getState().user || store.getState().admin;
   return token;
 };
 

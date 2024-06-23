@@ -1,18 +1,17 @@
 import React, { useEffect } from "react";
+import AdminSideBar from "../components/AdminSideBar";
 import { Outlet, useNavigate } from "react-router-dom";
-import SideBar from "../components/SideBar";
 import { useSelector } from "react-redux";
 
-const DashboardLayout = () => {
-  const userAuth = useSelector((state) => state.user);
+const AdminLayout = () => {
+  const adminAuth = useSelector((state) => state.admin);
   const navigate = useNavigate();
-
   useEffect(() => {
-    if (!userAuth.isAuthenticated) navigate("/");
+    if (!adminAuth.isAuthenticated) navigate("/");
   }, []);
   return (
     <div className="flex">
-      <SideBar />
+      <AdminSideBar />
       <div className="mx-8 my-4">
         <Outlet />
       </div>
@@ -20,4 +19,4 @@ const DashboardLayout = () => {
   );
 };
 
-export default DashboardLayout;
+export default AdminLayout;

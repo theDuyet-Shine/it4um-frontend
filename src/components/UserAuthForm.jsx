@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 
 import { motion as m } from "framer-motion";
 import { useDispatch } from "react-redux";
-import { userLogin } from "../redux/actions/authActions";
+import { adminLogin, userLogin } from "../redux/actions/authActions";
 const UserAuthForm = ({ type, loginType }) => {
   const dispatch = useDispatch();
 
@@ -122,7 +122,31 @@ const UserAuthForm = ({ type, loginType }) => {
 
   const handleAdminLogin = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    if (!formData.username || !formData.password) {
+      toast.error("Vui lòng điền đầy đủ thông tin");
+      return;
+    }
+
+    try {
+      const response = await api.post("auth/admin-login", {
+        username: formData.username,
+        password: formData.password,
+      });
+      if (response.status === 200) {
+        toast.success("Đăng nhập thành công!");
+        const { admin, token } = response.data;
+        setTimeout(() => {
+          dispatch(adminLogin({ admin, token }));
+          console.log(response);
+          navigate("/");
+        }, 2000);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(
+        "Đăng nhập không thành công. Vui lòng kiểm tra lại thông tin đăng nhập."
+      );
+    }
   };
 
   return (

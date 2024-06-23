@@ -60,11 +60,12 @@ const Home = () => {
     setSortType("latest");
     setTagFilterList([]);
     setCurrentPage(1);
+    fetchFilteredPosts();
   };
 
   useEffect(() => {
     fetchTags();
-  }, []);
+  });
 
   useEffect(() => {
     fetchFilteredPosts();

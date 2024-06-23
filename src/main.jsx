@@ -23,6 +23,9 @@ import PostCentral from "./pages/Dashboard/PostCentral";
 import ChangePassword from "./pages/Dashboard/ChangePassword";
 import Notification from "./pages/Dashboard/Notification";
 import UserProfile from "./pages/UserProfile";
+import AdminLayout from "./layout/AdminLayout";
+import TagCentral from "./pages/AdminDashboard/TagCentral";
+import PostStatistic from "./pages/AdminDashboard/PostStatistic";
 
 const router = createBrowserRouter([
   {
@@ -86,6 +89,20 @@ const router = createBrowserRouter([
           {
             path: "change-password",
             element: <ChangePassword />,
+          },
+        ],
+      },
+      {
+        path: "/admin-dashboard",
+        element: <AdminLayout />,
+        children: [
+          {
+            path: "tag-central",
+            element: <TagCentral />,
+          },
+          {
+            path: "statistic",
+            element: <PostStatistic />,
           },
         ],
       },

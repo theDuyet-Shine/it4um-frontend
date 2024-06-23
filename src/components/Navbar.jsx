@@ -7,9 +7,11 @@ import { BsPencilSquare } from "react-icons/bs";
 import UserNav from "./UserNav";
 import { motion as m } from "framer-motion";
 import api from "../config/axios";
+import AdminNav from "./AdminNav";
 
 const Navbar = () => {
   const userAuth = useSelector((state) => state.user);
+  const adminAuth = useSelector((state) => state.admin);
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
@@ -35,7 +37,6 @@ const Navbar = () => {
         const response = await api.get(
           `/notification/un-read/${userAuth.user._id}`
         );
-        console.log(response.data);
         setUnreadCount(response.data.unreadCount);
       } catch (error) {
         console.error("Error fetching unread notifications:", error);
@@ -45,7 +46,7 @@ const Navbar = () => {
     if (userAuth.isAuthenticated) {
       fetchUnreadCount();
     }
-  }, [unreadCount]);
+  }, [userAuth.isAuthenticated]);
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -74,51 +75,71 @@ const Navbar = () => {
 
         {/* Actions */}
         <div className="flex items-center justify-center space-x-4 mr-8">
-          <button
-            onClick={() => {
-              navigate("/guide");
-            }}
-            className="gap-1 flex items-center px-4 py-2 border rounded-full button"
-          >
-            Hướng dẫn và Quy tắc
-          </button>
-          <button
-            onClick={handleNewPostClick}
-            className="gap-1 flex items-center px-4 py-2 border rounded-full button"
-          >
-            <BsPencilSquare />
-            Viết bài
-          </button>
+          {!adminAuth.isAuthenticated && (
+            <>
+              <button
+                onClick={() => navigate("/guide")}
+                className="gap-1 flex items-center px-4 py-2 border rounded-full button"
+              >
+                Hướng dẫn và Quy tắc
+              </button>
+              <button
+                onClick={handleNewPostClick}
+                className="gap-1 flex items-center px-4 py-2 border rounded-full button"
+              >
+                <BsPencilSquare />
+                Viết bài
+              </button>
+            </>
+          )}
 
-          {userAuth.isAuthenticated ? (
-            <div className="gap-2 flex" ref={menuRef}>
-              <Link to={"/dashboard/notification"}>
-                <button className="w-10 h-10 rounded-full border flex justify-center items-center bg-blue-600 ">
-                  {unreadCount !== 0 ? (
-                    <span className="text-white w-5 h-5 rounded-full bg-red-600 absolute top-4 right-[75px] flex items-center justify-center">
-                      {unreadCount}
-                    </span>
-                  ) : null}
-                  <GoBell className="w-6 h-6 text-white" />
-                </button>
-              </Link>
+          {userAuth.isAuthenticated || adminAuth.isAuthenticated ? (
+            userAuth.isAuthenticated ? (
+              <div className="gap-2 flex" ref={menuRef}>
+                <Link to={"/dashboard/notification"}>
+                  <button className="w-10 h-10 rounded-full border flex justify-center items-center bg-blue-600">
+                    {unreadCount !== 0 && (
+                      <span className="text-white w-5 h-5 rounded-full bg-red-600 absolute top-4 right-[75px] flex items-center justify-center">
+                        {unreadCount}
+                      </span>
+                    )}
+                    <GoBell className="w-6 h-6 text-white" />
+                  </button>
+                </Link>
 
-              <div>
+                <div>
+                  <button
+                    className="flex items-center space-x-4 rounded-full border-2 h-10 w-10 justify-center hover:bg-gray-100"
+                    onClick={toggleMenu}
+                  >
+                    <img
+                      src={userAuth.user.profile_image}
+                      className="h-10 w-10 rounded-full cursor-pointer border border-blue-600"
+                      alt="User Profile"
+                    />
+                  </button>
+                  {menuOpen && (
+                    <UserNav onMenuOpenChange={handleMenuOpenChange} />
+                  )}
+                </div>
+              </div>
+            ) : (
+              <div className="gap-2 flex" ref={menuRef}>
                 <button
                   className="flex items-center space-x-4 rounded-full border-2 h-10 w-10 justify-center hover:bg-gray-100"
                   onClick={toggleMenu}
                 >
                   <img
-                    src={userAuth.user.profile_image}
+                    src={adminAuth.admin.admin.profile_image}
                     className="h-10 w-10 rounded-full cursor-pointer border border-blue-600"
-                    alt="User Profile"
+                    alt="Admin Profile"
                   />
                 </button>
                 {menuOpen && (
-                  <UserNav onMenuOpenChange={handleMenuOpenChange} />
+                  <AdminNav onMenuOpenChange={handleMenuOpenChange} />
                 )}
               </div>
-            </div>
+            )
           ) : (
             <>
               <Link to="/login">

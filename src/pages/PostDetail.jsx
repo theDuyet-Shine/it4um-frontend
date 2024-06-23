@@ -141,7 +141,7 @@ const PostDetail = () => {
             }}
             exit={{ opacity: 0, x: "100%" }}
             transition={{ duration: 0.5 }}
-            className="fixed border-2 top-20 right-0 h-full w-[40%] bg-white z-50 overflow-scroll"
+            className="fixed border-2 top-20 right-0 h-full w-[40%] bg-white z-40 overflow-scroll"
           >
             <CommentPool postId={postData._id} onClose={handleCloseComments} />
           </m.div>
@@ -169,6 +169,12 @@ const PostDetail = () => {
                 Đã đăng vào{" "}
                 {new Date(postData.post_date).toLocaleString("vi-VN")}
               </p>
+              {postData.post_date !== postData.modify_date ? (
+                <p className="text-gray-500 mt-1 mr-3">
+                  Chỉnh sửa gần nhất vào{" "}
+                  {new Date(postData.modify_date).toLocaleString("vi-VN")}
+                </p>
+              ) : null}
               <div className="flex items-center text-gray-500 text-sm mb-2">
                 <IoMdEye className="mr-1 text-xl" title="Số lượt xem" />{" "}
                 {postData.total_views}

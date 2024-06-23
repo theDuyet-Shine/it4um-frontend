@@ -47,7 +47,7 @@ export default function MultipleSelectChip({ value, onChange }) {
 
   return (
     <div>
-      <FormControl sx={{ minWidth: 400 }}>
+      <FormControl sx={{ minWidth: 300 }}>
         <InputLabel id="demo-multiple-chip-label">Thẻ</InputLabel>
         <Select
           labelId="demo-multiple-chip-label"

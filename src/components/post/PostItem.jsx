@@ -30,7 +30,7 @@ const PostItem = ({ post, handleTagClick }) => {
               {post.author.fullname}
             </p>
             <p className="text-sm text-gray-500">
-              {new Date(post.post_date).toLocaleString("vi-VN")}
+              {new Date(post.modify_date).toLocaleString("vi-VN")}
             </p>
           </div>
         </div>
