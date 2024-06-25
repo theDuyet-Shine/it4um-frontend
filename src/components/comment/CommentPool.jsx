@@ -5,6 +5,7 @@ import api from "../../config/axios";
 import { useSelector } from "react-redux";
 import CommentItem from "./CommentItem";
 import "react-quill/dist/quill.snow.css";
+import toast from "react-hot-toast";
 
 const CommentPool = ({ postId, onClose }) => {
   const [editorContent, setEditorContent] = useState("");
@@ -39,20 +40,25 @@ const CommentPool = ({ postId, onClose }) => {
   }, []);
 
   const handleComment = async () => {
-    try {
-      const response = await api.post("/comment", {
-        post_id: postId,
-        commenter_id: userAuth.user._id,
-        content: editorContent,
-      });
-      if (response.status === 201) {
-        const newComment = response.data;
-        setComments((prevComments) => [newComment, ...prevComments]);
-        setEditorContent("");
+    if (userAuth.isAuthenticated) {
+      try {
+        const response = await api.post("/comment", {
+          post_id: postId,
+          commenter_id: userAuth.user._id,
+          content: editorContent,
+        });
+        if (response.status === 201) {
+          const newComment = response.data;
+          setComments((prevComments) => [newComment, ...prevComments]);
+          setEditorContent("");
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
-    }
+    } else
+      toast.error(
+        "Bạn phải đăng nhập tài khoản người dùng mới có thể bình luận!"
+      );
   };
 
   const handleEditorChange = (content) => {

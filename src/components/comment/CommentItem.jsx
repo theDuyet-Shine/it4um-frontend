@@ -3,6 +3,7 @@ import TextEditor from "../TextEditor";
 import { useSelector } from "react-redux";
 import api from "../../config/axios";
 import "react-quill/dist/quill.snow.css";
+import toast from "react-hot-toast";
 
 const CommentItem = ({ comment, onReplyAdded, isReply = false }) => {
   const [showReplyForm, setShowReplyForm] = useState(false);
@@ -11,23 +12,28 @@ const CommentItem = ({ comment, onReplyAdded, isReply = false }) => {
   const userAuth = useSelector((state) => state.user);
 
   const handleReply = async () => {
-    try {
-      const response = await api.post("/comment", {
-        post_id: comment.post_id,
-        commenter_id: userAuth.user._id,
-        content: replyContent,
-        reply_to: comment._id,
-      });
-      if (response.status === 201) {
-        const newReply = response.data;
-        onReplyAdded(newReply); // Update parent comment with the new reply
-        setShowReplyForm(false);
-        setReplyContent("");
-        setShowReplies(true);
+    if (userAuth.isAuthenticated) {
+      try {
+        const response = await api.post("/comment", {
+          post_id: comment.post_id,
+          commenter_id: userAuth.user._id,
+          content: replyContent,
+          reply_to: comment._id,
+        });
+        if (response.status === 201) {
+          const newReply = response.data;
+          onReplyAdded(newReply); // Update parent comment with the new reply
+          setShowReplyForm(false);
+          setReplyContent("");
+          setShowReplies(true);
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
-    }
+    } else
+      toast.error(
+        "Bạn phải đăng nhập tài khoản người dùng mới có thể bình luận"
+      );
   };
 
   const handleReplyChange = (content) => {

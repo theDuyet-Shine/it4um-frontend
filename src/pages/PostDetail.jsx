@@ -79,17 +79,7 @@ const PostDetail = () => {
   };
 
   const handleToggleComments = () => {
-    if (userAuth.isAuthenticated) {
-      setShowComments(!showComments);
-    } else {
-      toast(
-        "Bạn cần đăng nhập tài khoản người dùng mới có thể tương tác với bài viết",
-        {
-          icon: "⚠️",
-          duration: 1000,
-        }
-      );
-    }
+    setShowComments(!showComments);
   };
 
   const handleCloseComments = () => {
