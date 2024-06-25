@@ -23,8 +23,6 @@ const Home = () => {
     }
   };
 
-  const navigate = useNavigate();
-
   const handleFilter = () => {
     fetchFilteredPosts();
   };
@@ -94,12 +92,15 @@ const Home = () => {
             />
           ))}
         </div>
-        <Pagination
-          count={totalPages}
-          page={currentPage}
-          onChange={handlePageChange}
-          sx={{ marginTop: 4 }}
-        />
+        {posts.length === 0 && <h1>Không có bài viết phù hợp</h1>}
+        {posts.length !== 0 && (
+          <Pagination
+            count={totalPages}
+            page={currentPage}
+            onChange={handlePageChange}
+            sx={{ marginTop: 4 }}
+          />
+        )}
       </div>
 
       {/* Right section */}

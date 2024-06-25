@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import api from "../../config/axios";
 import {
   Pagination,
@@ -21,9 +21,10 @@ import {
 } from "@mui/material";
 import { FaEllipsisV } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const PostStatistic = () => {
-  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedDate, setSelectedDate] = useState(Date.now());
   const [posts, setPosts] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
@@ -64,7 +65,7 @@ const PostStatistic = () => {
   };
 
   const handleOpenDeleteDialog = () => {
-    setAnchorEl(null); // Close the menu
+    setAnchorEl(null);
     setDeleteDialogOpen(true);
   };
 
@@ -78,6 +79,7 @@ const PostStatistic = () => {
       violation_score: selectedViolationLevel,
     });
     if (response.status === 200) {
+      toast.success("Đã xóa bài đăng!");
       setDeleteDialogOpen(false);
       handleSubmit();
     }
@@ -92,6 +94,9 @@ const PostStatistic = () => {
 
     handleDeletePost();
   };
+  useEffect(() => {
+    handleSubmit;
+  }, [currentPage, posts]);
 
   return (
     <div className="flex justify-center">

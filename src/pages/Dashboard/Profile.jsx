@@ -69,7 +69,7 @@ const Profile = () => {
         ...prevData,
         profile_image: imageUrl,
       }));
-      toast.success("Image uploaded successfully!");
+      toast.success("Đã upload ảnh!");
     } catch (error) {
       console.error("Error uploading image:", error);
     }
@@ -83,7 +83,7 @@ const Profile = () => {
     }
 
     if (!/^\d{10}$/.test(phoneNumber)) {
-      errors.phone_number = "Phone number must be a string of 10 digits";
+      errors.phone_number = "Số điện thoại phải chứa 10 ký tự";
     }
 
     return errors;
@@ -102,10 +102,10 @@ const Profile = () => {
       const response = await api.put(`/user/${userAuth.user._id}`, profileData);
       if (response.status === 200) {
         dispatch(updateUserInfo(profileData));
-        toast.success("Profile updated successfully!");
+        toast.success("Cập nhật thông tin thành công!");
       }
     } catch (error) {
-      toast.error("Error updating profile information!");
+      toast.error("Có lỗi xảy ra khi cập nhật thông tin");
       console.error("Error updating profile:", error);
     }
   };
