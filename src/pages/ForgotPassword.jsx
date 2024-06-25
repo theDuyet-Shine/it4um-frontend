@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import InputBox from "../components/InputBox";
 import api from "../config/axios";
-import { useSelector } from "react-redux";
 
 import { useNavigate } from "react-router-dom";
 
@@ -18,22 +17,25 @@ const ForgotPassword = () => {
   const navigate = useNavigate();
 
   const handleRequestVerification = async () => {
-    console.log(email);
-    const res = await api.get(`user/?email=${email}`);
-    if (res.status === 200) {
-      setUser(res.data.user);
-      const response = await api.post("auth/send-otp", {
-        email,
-      });
-      if (response.status === 200) {
-        setIsVerificationRequested(true);
-        setShowPasswordInput(true);
-        setCountdown(60);
-        toast.success("Hãy kiểm tra hòm thư của bạn");
-      } else {
-        toast.error("Có lỗi khi gửi mã OTP");
+    try {
+      const res = await api.get(`user/?email=${email}`);
+      if (res.status === 200) {
+        setUser(res.data.user);
+        const response = await api.post("auth/send-otp", {
+          email,
+        });
+        if (response.status === 200) {
+          setIsVerificationRequested(true);
+          setShowPasswordInput(true);
+          setCountdown(60);
+          toast.success("Hãy kiểm tra hòm thư của bạn");
+        } else {
+          toast.error("Có lỗi khi gửi mã OTP");
+        }
       }
-    } else toast.error("Không tìm thấy tài khoản!");
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
   };
 
   useEffect(() => {
@@ -92,7 +94,7 @@ const ForgotPassword = () => {
         className="shadow-lg border px-16 py-8 mt-2"
         style={{ marginLeft: "450px" }}
       >
-        <h2 className="text-2xl mb-4 font-bold text-blue-600">Đổi mật khẩu</h2>
+        <h2 className="text-2xl mb-4 font-bold text-blue-600">Quên mật khẩu</h2>
         <form onSubmit={handleSubmit}>
           <div className="relative mb-4 min-w-[400px]">
             <input
