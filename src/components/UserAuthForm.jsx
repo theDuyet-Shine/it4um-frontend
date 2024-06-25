@@ -268,7 +268,7 @@ const UserAuthForm = ({ type, loginType }) => {
           ""
         )}
 
-        {type === "login" ? (
+        {type === "login" && loginType === "user" ? (
           <div>
             <p className="mt-4 text-dark-grey text-base text-center">
               Chưa có tài khoản?
@@ -276,9 +276,18 @@ const UserAuthForm = ({ type, loginType }) => {
                 Đăng ký tại đây!
               </Link>
             </p>
+            <p className="mt-4 text-dark-grey text-md text-center">
+              <Link
+                to={"/forgot-password"}
+                className="underline text-black text-md ml-2"
+              >
+                Quên mật khẩu
+              </Link>
+            </p>
           </div>
         ) : (
-          !showOtpForm && (
+          !showOtpForm &&
+          loginType !== "admin" && (
             <>
               <p className="mt-4 text-dark-grey text-md text-center">
                 Đã có tài khoản?

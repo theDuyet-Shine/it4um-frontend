@@ -26,6 +26,7 @@ import UserProfile from "./pages/UserProfile";
 import AdminLayout from "./layout/AdminLayout";
 import TagCentral from "./pages/AdminDashboard/TagCentral";
 import PostStatistic from "./pages/AdminDashboard/PostStatistic";
+import ForgotPassword from "./pages/ForgotPassword";
 
 const router = createBrowserRouter([
   {
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
       {
         path: "/signup",
         element: <SignupPage />,
+      },
+      {
+        path: "/forgot-password",
+        element: <ForgotPassword />,
       },
       {
         path: "/new-post",

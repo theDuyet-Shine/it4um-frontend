@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
-import InputBox from "../../components/InputBox";
-import api from "../../config/axios";
-import { useDispatch, useSelector } from "react-redux";
-import { userLogout } from "../../redux/actions/authActions";
+import InputBox from "../components/InputBox";
+import api from "../config/axios";
+import { useSelector } from "react-redux";
+
 import { useNavigate } from "react-router-dom";
 
-const ChangePassword = () => {
+const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [isVerificationRequested, setIsVerificationRequested] = useState(false);
   const [showPasswordInput, setShowPasswordInput] = useState(false);
@@ -14,14 +14,14 @@ const ChangePassword = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [countdown, setCountdown] = useState(0);
   const [otp, setOtp] = useState("");
-  const userAuth = useSelector((state) => state.user);
+  const [user, setUser] = useState();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const handleRequestVerification = async () => {
-    if (userAuth.user.email !== email) {
-      toast.error("Email bạn nhập không phải là email tài khoản của bạn!");
-    } else {
+    console.log(email);
+    const res = await api.get(`user/?email=${email}`);
+    if (res.status === 200) {
+      setUser(res.data.user);
       const response = await api.post("auth/send-otp", {
         email,
       });
@@ -33,7 +33,7 @@ const ChangePassword = () => {
       } else {
         toast.error("Có lỗi khi gửi mã OTP");
       }
-    }
+    } else toast.error("Không tìm thấy tài khoản!");
   };
 
   useEffect(() => {
@@ -51,38 +51,29 @@ const ChangePassword = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Kiểm tra các trường nhập liệu đầy đủ
     if (!otp || !newPassword || !confirmPassword) {
       toast.error("Vui lòng nhập đầy đủ thông tin!");
       return;
     }
 
-    // Kiểm tra mật khẩu mới và mật khẩu xác nhận có khớp nhau không
     if (newPassword !== confirmPassword) {
       toast.error("Mật khẩu nhắc lại không trùng với mật khẩu mới!");
       return;
     }
 
     try {
-      // Gửi OTP để xác thực
       const res = await api.post("auth/validate-otp", {
         email: email,
         otp: otp,
       });
 
       if (res.status === 200) {
-        // Nếu OTP hợp lệ, cập nhật mật khẩu
-        const response = await api.put(
-          `/user/change-password/${userAuth.user._id}`,
-          {
-            password: confirmPassword,
-          }
-        );
+        const response = await api.put(`/user/forgot-password/${user._id}`, {
+          password: confirmPassword,
+        });
 
         if (response.status === 200) {
-          // Cập nhật thông tin người dùng sau khi đổi mật khẩu thành công
           toast.success("Mật khẩu đã được thay đổi thành công!");
-          dispatch(userLogout());
           navigate("/login");
         } else {
           toast.error("Có lỗi khi cập nhật mật khẩu. Vui lòng thử lại sau!");
@@ -97,7 +88,10 @@ const ChangePassword = () => {
 
   return (
     <div className="flex p-6 bg-white rounded-md place-items-center">
-      <div className="shadow-lg border px-16 py-16 mt-16 ml-72">
+      <div
+        className="shadow-lg border px-16 py-8 mt-2"
+        style={{ marginLeft: "450px" }}
+      >
         <h2 className="text-2xl mb-4 font-bold text-blue-600">Đổi mật khẩu</h2>
         <form onSubmit={handleSubmit}>
           <div className="relative mb-4 min-w-[400px]">
@@ -180,4 +174,4 @@ const ChangePassword = () => {
   );
 };
 
-export default ChangePassword;
+export default ForgotPassword;

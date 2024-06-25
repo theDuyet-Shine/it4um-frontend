@@ -15,6 +15,7 @@ const Profile = () => {
     address: "",
     expertise: "",
     profile_image: "",
+    violation_score: "",
   });
 
   const [selectedFile, setSelectedFile] = useState(null);
