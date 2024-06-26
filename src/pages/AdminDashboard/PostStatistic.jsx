@@ -179,7 +179,7 @@ const PostStatistic = () => {
             ))}
         </div>
 
-        {posts.length !== 0 && (
+        {posts.length !== 0 ? (
           <Stack spacing={2} direction="row" justifyContent="center" mt={4}>
             <Pagination
               count={totalPages}
@@ -188,6 +188,8 @@ const PostStatistic = () => {
               color="primary"
             />
           </Stack>
+        ) : (
+          <h1>Không có bài đăng nào!</h1>
         )}
 
         {/* Delete Confirmation Dialog */}

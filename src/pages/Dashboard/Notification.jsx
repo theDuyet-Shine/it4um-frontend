@@ -72,7 +72,8 @@ const Notification = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        marginLeft: "400px",
+        width: "600px",
+        marginLeft: "300px",
       }}
     >
       <div>
@@ -90,25 +91,35 @@ const Notification = () => {
                 marginBottom: "10px",
                 display: "flex",
                 alignItems: "center",
-                cursor: "pointer", // Thêm style để hiển thị con trỏ chuột khi hover
+                cursor: "pointer",
               }}
             >
-              <Avatar
-                alt="Profile Image"
-                src={notification.commenter_id.profile_image}
-                sx={{ width: 40, height: 40, marginRight: 2 }}
-                onClick={() => {
-                  navigate(`/user-profile/${notification.commenter_id._id}`);
-                }}
-              />
+              {notification.type !== "delete" ? (
+                <Avatar
+                  alt="Profile Image"
+                  src={notification.commenter_id.profile_image}
+                  sx={{ width: 40, height: 40, marginRight: 2 }}
+                  onClick={() => {
+                    navigate(`/user-profile/${notification.commenter_id._id}`);
+                  }}
+                />
+              ) : null}
 
               <div>
-                <Typography
-                  variant="body1"
-                  onClick={() => handleNotificationClick(notification.post_id)}
-                >
-                  {notification.message}
-                </Typography>
+                {notification.type !== "delete" ? (
+                  <Typography
+                    variant="body1"
+                    onClick={() =>
+                      handleNotificationClick(notification.post_id)
+                    }
+                  >
+                    {notification.message}
+                  </Typography>
+                ) : (
+                  <Typography variant="body1">
+                    {notification.message}
+                  </Typography>
+                )}
                 <Typography variant="caption" color="text.secondary">
                   {formatTimeDifference(notification.created_at)}
                 </Typography>
@@ -119,7 +130,7 @@ const Notification = () => {
             <Typography variant="body1">No notifications available</Typography>
           )}
         </Box>
-        <Stack spacing={2} style={{ marginTop: "20px", marginLeft: "120px" }}>
+        <Stack spacing={2} style={{ marginTop: "20px", marginLeft: "240px" }}>
           <Pagination
             count={Math.ceil(totalCount / perPage)}
             page={page}
