@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import api from "../config/axios";
 import { Chip, Pagination } from "@mui/material";
 
@@ -18,6 +18,7 @@ const UserProfile = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [posts, setPosts] = useState([]);
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const fetchUserData = async () => {
     const res = await api.get(`/user/${id}`);
@@ -72,7 +73,12 @@ const UserProfile = () => {
               <div key={post._id} className="p-4 border-b">
                 <div className="flex justify-between items-center">
                   <div>
-                    <h2 className="text-xl font-bold text-blue-500">
+                    <h2
+                      className="text-xl font-bold text-blue-500 cursor-pointer hover:scale-110"
+                      onClick={() => {
+                        navigate(`/post/${post._id}`);
+                      }}
+                    >
                       {post.title}
                     </h2>
                     <div className="flex items-center space-x-2">

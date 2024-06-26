@@ -1,0 +1,47 @@
+Date : 2024-06-25 20:29:03
+Directory : d:\20200118_DATN_2023.2\it4um-frontend\src
+Total : 13 files,  472 codes, 0 comments, 18 blanks, all 490 lines
+
+Languages
++----------------+------------+------------+------------+------------+------------+
+| language       | files      | code       | comment    | blank      | total      |
++----------------+------------+------------+------------+------------+------------+
+| JavaScript JSX |         12 |        465 |          0 |         18 |        483 |
+| JavaScript     |          1 |          7 |          0 |          0 |          7 |
++----------------+------------+------------+------------+------------+------------+
+
+Directories
++-----------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                              | files      | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                 |         13 |        472 |          0 |         18 |        490 |
+| . (Files)                                                                         |          1 |          5 |          0 |          0 |          5 |
+| components                                                                        |          3 |         21 |          0 |          0 |         21 |
+| components (Files)                                                                |          1 |          9 |          0 |          0 |          9 |
+| components\comment                                                                |          2 |         12 |          0 |          0 |         12 |
+| pages                                                                             |          8 |        439 |          0 |         18 |        457 |
+| pages (Files)                                                                     |          5 |        430 |          0 |         18 |        448 |
+| pages\AdminDashboard                                                              |          1 |          5 |          0 |          0 |          5 |
+| pages\Dashboard                                                                   |          2 |          4 |          0 |          0 |          4 |
+| redux                                                                             |          1 |          7 |          0 |          0 |          7 |
++-----------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-----------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
+| filename                                                                          | language       | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
+| d:\20200118_DATN_2023.2\it4um-frontend\src\components\UserAuthForm.jsx            | JavaScript JSX |          9 |          0 |          0 |          9 |
+| d:\20200118_DATN_2023.2\it4um-frontend\src\components\comment\CommentItem.jsx     | JavaScript JSX |          6 |          0 |          0 |          6 |
+| d:\20200118_DATN_2023.2\it4um-frontend\src\components\comment\CommentPool.jsx     | JavaScript JSX |          6 |          0 |          0 |          6 |
+| d:\20200118_DATN_2023.2\it4um-frontend\src\main.jsx                               | JavaScript JSX |          5 |          0 |          0 |          5 |
+| d:\20200118_DATN_2023.2\it4um-frontend\src\pages\AdminDashboard\PostStatistic.jsx | JavaScript JSX |          5 |          0 |          0 |          5 |
+| d:\20200118_DATN_2023.2\it4um-frontend\src\pages\Dashboard\PostCentral.jsx        | JavaScript JSX |          3 |          0 |          0 |          3 |
+| d:\20200118_DATN_2023.2\it4um-frontend\src\pages\Dashboard\Profile.jsx            | JavaScript JSX |          1 |          0 |          0 |          1 |
+| d:\20200118_DATN_2023.2\it4um-frontend\src\pages\ForgotPassword.jsx               | JavaScript JSX |        167 |          0 |         13 |        180 |
+| d:\20200118_DATN_2023.2\it4um-frontend\src\pages\Guide.jsx                        | JavaScript JSX |        160 |          0 |          0 |        160 |
+| d:\20200118_DATN_2023.2\it4um-frontend\src\pages\Home.jsx                         | JavaScript JSX |          2 |          0 |         -1 |          1 |
+| d:\20200118_DATN_2023.2\it4um-frontend\src\pages\PostDetail.jsx                   | JavaScript JSX |        -10 |          0 |          0 |        -10 |
+| d:\20200118_DATN_2023.2\it4um-frontend\src\pages\UserProfile.jsx                  | JavaScript JSX |        111 |          0 |          6 |        117 |
+| d:\20200118_DATN_2023.2\it4um-frontend\src\redux\store.js                         | JavaScript     |          7 |          0 |          0 |          7 |
+| Total                                                                             |                |        472 |          0 |         18 |        490 |
++-----------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
