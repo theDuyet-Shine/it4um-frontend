@@ -138,7 +138,7 @@ const UserAuthForm = ({ type, loginType }) => {
         setTimeout(() => {
           dispatch(adminLogin({ admin, token }));
           console.log(response);
-          navigate("/");
+          navigate("/admin-dashboard/statistic");
         }, 2000);
       }
     } catch (error) {
@@ -271,7 +271,7 @@ const UserAuthForm = ({ type, loginType }) => {
         {type === "login" && loginType === "user" ? (
           <div>
             <p className="mt-4 text-dark-grey text-base text-center">
-              Chưa có tài khoản?
+              Chưa có tài khoản người dùng?
               <Link to={"/signup"} className="link-text ml-1">
                 Đăng ký tại đây!
               </Link>
