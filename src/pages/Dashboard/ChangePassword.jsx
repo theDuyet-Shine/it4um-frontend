@@ -51,27 +51,23 @@ const ChangePassword = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Kiểm tra các trường nhập liệu đầy đủ
     if (!otp || !newPassword || !confirmPassword) {
       toast.error("Vui lòng nhập đầy đủ thông tin!");
       return;
     }
 
-    // Kiểm tra mật khẩu mới và mật khẩu xác nhận có khớp nhau không
     if (newPassword !== confirmPassword) {
       toast.error("Mật khẩu nhắc lại không trùng với mật khẩu mới!");
       return;
     }
 
     try {
-      // Gửi OTP để xác thực
       const res = await api.post("auth/validate-otp", {
         email: email,
         otp: otp,
       });
 
       if (res.status === 200) {
-        // Nếu OTP hợp lệ, cập nhật mật khẩu
         const response = await api.put(
           `/user/change-password/${userAuth.user._id}`,
           {
@@ -80,7 +76,6 @@ const ChangePassword = () => {
         );
 
         if (response.status === 200) {
-          // Cập nhật thông tin người dùng sau khi đổi mật khẩu thành công
           toast.success("Mật khẩu đã được thay đổi thành công!");
           dispatch(userLogout());
           navigate("/login");

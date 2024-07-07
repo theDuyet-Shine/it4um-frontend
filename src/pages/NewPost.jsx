@@ -17,7 +17,7 @@ const NewPost = () => {
   const [content, setContent] = useState("");
   const [selectedOption, setSelectedOption] = useState("write");
   const [tags, setTags] = useState([]);
-  const [showScrollToTop, setShowScrollToTop] = useState(false); // State để điều khiển hiển thị nút scroll
+  const [showScrollToTop, setShowScrollToTop] = useState(false);
 
   useEffect(() => {
     if (!userAuth.isAuthenticated) {
@@ -46,7 +46,7 @@ const NewPost = () => {
         try {
           const response = await api.post("/post", newPost);
           if (response.status === 201) toast.success("Đăng bài thành công!");
-          setTimeout(() => navigate(`/post/${response.data._id}`), 2000); // Điều hướng sau khi đăng bài
+          setTimeout(() => navigate(`/post/${response.data._id}`), 2000);
         } catch (error) {
           toast.error("Lỗi khi đăng bài!");
         }
@@ -59,7 +59,7 @@ const NewPost = () => {
       top: 0,
       behavior: "smooth",
     });
-    setShowScrollToTop(false); // Ẩn nút scrollToTop sau khi click
+    setShowScrollToTop(false);
   };
 
   useEffect(() => {

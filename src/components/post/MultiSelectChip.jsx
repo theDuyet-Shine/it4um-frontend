@@ -27,11 +27,11 @@ export default function MultipleSelectChip({ value, onChange }) {
 
   useEffect(() => {
     fetchTags();
-  }, []); // Gọi API khi component mount
+  }, []);
 
   const fetchTags = async () => {
     try {
-      const response = await api.get("/tag"); // Gọi API để lấy danh sách tag
+      const response = await api.get("/tag");
       setTags(response.data);
     } catch (error) {
       console.error("Error fetching tags:", error);
@@ -42,7 +42,7 @@ export default function MultipleSelectChip({ value, onChange }) {
     const {
       target: { value: selectedTags },
     } = event;
-    onChange(selectedTags); // Truyền giá trị đã chọn ra ngoài
+    onChange(selectedTags);
   };
 
   return (
@@ -68,7 +68,7 @@ export default function MultipleSelectChip({ value, onChange }) {
           {tags.map((tag) => (
             <MenuItem
               key={tag._id}
-              value={tag.tag_name} // Sử dụng tag_name thay vì _id
+              value={tag.tag_name}
               style={getStyles(tag.tag_name, value, theme)}
             >
               {tag.tag_name}

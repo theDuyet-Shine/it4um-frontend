@@ -7,14 +7,14 @@ import toast from "react-hot-toast";
 const TagCentral = () => {
   const [tagFilterList, setTagFilterList] = useState([]);
   const [showForm, setShowForm] = useState(false);
-  const [tagName, setTagName] = useState(""); // State để lưu giá trị của input
+  const [tagName, setTagName] = useState("");
 
   const handleAddTag = () => {
     setShowForm(true);
   };
 
   const handleChange = (event) => {
-    setTagName(event.target.value); // Cập nhật giá trị khi người dùng nhập liệu
+    setTagName(event.target.value);
   };
 
   const handleSubmit = async (event) => {

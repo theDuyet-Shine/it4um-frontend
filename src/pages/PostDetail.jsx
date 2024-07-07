@@ -91,7 +91,7 @@ const PostDetail = () => {
       top: 0,
       behavior: "smooth",
     });
-    setShowScrollToTop(false); // Ẩn nút scrollToTop sau khi click
+    setShowScrollToTop(false);
   };
 
   useEffect(() => {

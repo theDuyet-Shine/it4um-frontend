@@ -22,7 +22,7 @@ const CommentItem = ({ comment, onReplyAdded, isReply = false }) => {
         });
         if (response.status === 201) {
           const newReply = response.data;
-          onReplyAdded(newReply); // Update parent comment with the new reply
+          onReplyAdded(newReply);
           setShowReplyForm(false);
           setReplyContent("");
           setShowReplies(true);
