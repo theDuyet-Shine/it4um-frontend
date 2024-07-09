@@ -1,31 +1,22 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage";
-import expireReducer from "redux-persist-expire";
+import storageSession from "redux-persist/lib/storage/session";
 import rootReducer from "./reducers";
 
-// Define persistConfig
+// Định nghĩa persistConfig
 const persistConfig = {
   key: "root",
-  storage,
-  blacklist: ["store"], // Exclude the 'store' object from persistence
-  transforms: [
-    expireReducer("root", {
-      expireSeconds: 3600, // 1 hour
-      autoExpire: true,
-    }),
-  ],
+  storage: storageSession,
+  blacklist: ["store"],
 };
 
-// Wrap rootReducer with persistReducer
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-// Create the Redux store
+// Tạo Redux store
 const store = configureStore({
   reducer: persistedReducer,
 });
 
-// Create persistor
 export const persistor = persistStore(store);
 
 export default store;
