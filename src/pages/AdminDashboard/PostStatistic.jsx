@@ -80,8 +80,8 @@ const PostStatistic = () => {
     });
     if (response.status === 200) {
       toast.success("Đã xóa bài đăng!");
+      setPosts(posts.filter((post) => post._id !== selectedPostId));
       setDeleteDialogOpen(false);
-      handleSubmit();
     }
   };
 
@@ -95,7 +95,7 @@ const PostStatistic = () => {
     handleDeletePost();
   };
   useEffect(() => {
-    handleSubmit;
+    handleSubmit();
   }, [currentPage, posts]);
 
   return (

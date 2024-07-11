@@ -29,20 +29,32 @@ const EditPostModal = ({ isOpen, onClose, post }) => {
   };
 
   const handleSaveChanges = async () => {
-    try {
-      const response = await api.put(`/post/${id}`, {
-        content: editorContent,
-        title,
-        tags,
-      });
-      if (response.status === 200) {
-        toast.success("Bạn đã cập nhật post thành công!");
+    if (editorContent.length === 0) {
+      toast.error("Không được để trống nội dung!");
+    } else {
+      if (tags.length === 0) {
+        toast.error("Bài viết cần được gắn thẻ!");
+      } else {
+        if (title.length === 0) {
+          toast.error("Không được để trống tiêu đề!");
+        } else {
+          try {
+            const response = await api.put(`/post/${id}`, {
+              content: editorContent,
+              title,
+              tags,
+            });
+            if (response.status === 200) {
+              toast.success("Bạn đã cập nhật post thành công!");
+            }
+          } catch (error) {
+            toast.error("Có lỗi xảy ra");
+          }
+          onClose();
+          navigate(`/post/${id}`);
+        }
       }
-    } catch (error) {
-      toast.error("Có lỗi xảy ra");
     }
-    onClose();
-    navigate(`/post/${id}`);
   };
 
   const handleTagsChange = (selectedTags) => {

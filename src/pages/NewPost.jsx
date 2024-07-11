@@ -36,19 +36,23 @@ const NewPost = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (content.length === 0) {
-      toast.error("Không được để trống nội dung");
+      toast.error("Không được để trống nội dung!");
     } else {
-      if (title.length === 0) {
-        toast.error("Không được để trống tiêu đề");
+      if (tags.length === 0) {
+        toast.error("Bài viết cần được gắn thẻ!");
       } else {
-        const author = userAuth.user._id;
-        const newPost = { title, content, tags, author };
-        try {
-          const response = await api.post("/post", newPost);
-          if (response.status === 201) toast.success("Đăng bài thành công!");
-          setTimeout(() => navigate(`/post/${response.data._id}`), 2000);
-        } catch (error) {
-          toast.error("Lỗi khi đăng bài!");
+        if (title.length === 0) {
+          toast.error("Không được để trống tiêu đề");
+        } else {
+          const author = userAuth.user._id;
+          const newPost = { title, content, tags, author };
+          try {
+            const response = await api.post("/post", newPost);
+            if (response.status === 201) toast.success("Đăng bài thành công!");
+            setTimeout(() => navigate(`/post/${response.data._id}`), 2000);
+          } catch (error) {
+            toast.error("Lỗi khi đăng bài!");
+          }
         }
       }
     }
